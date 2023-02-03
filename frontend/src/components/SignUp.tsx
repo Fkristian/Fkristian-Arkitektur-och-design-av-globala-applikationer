@@ -40,11 +40,15 @@ export default function SignUp() {
 
     function registerAttempt() {
         const post = {
-            username :  formData.username,
-            password : formData.password
+            firstname   : formData.firstname,
+            lastname    : formData.lastname,
+            emailaddress: formData.emailaddress,
+            personnumber: formData.personnumber,
+            username    :  formData.username,
+            password    : formData.password
 
         }
-        ApiPost.postData(post).then(response => handleResponse(response));
+        ApiPost.createData(post).then(response => handleResponse(response));
     }
 
     function goToLogin() {

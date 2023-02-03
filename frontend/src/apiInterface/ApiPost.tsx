@@ -47,6 +47,13 @@ const ApiPost = {
           return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
       },
 
+        createData(object: any) : Promise<any> {
+
+
+        const postQueueEndpoint = "/any/register";
+        return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
+        },
+
   };
 
 export default ApiPost;
