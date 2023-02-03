@@ -13,6 +13,7 @@ public class Role {
     protected Role(){}
 
     public Role(String name) {
+        this.roleId = roleId;
         this.name = name;
     }
 

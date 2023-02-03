@@ -23,7 +23,7 @@ const ApiPost = {
               console.log(response)
         if(response.status === 200){
             console.log("Logged in successfully")
-            return response.json() as Promise<any>;
+            return response;
         }
         else if(response.status === 401){
             console.log("Wrong credentials")
@@ -46,6 +46,13 @@ const ApiPost = {
           const postQueueEndpoint = "/any/login";
           return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
       },
+
+        createData(object: any) : Promise<any> {
+
+
+        const postQueueEndpoint = "/any/register";
+        return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
+        },
 
   };
 

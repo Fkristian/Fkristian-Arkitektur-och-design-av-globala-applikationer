@@ -1,11 +1,16 @@
 package se.kth.iv1201.appserv.jobapp.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Person {
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="person_id")
     int personId;
     String name;
     String surname;
@@ -16,6 +21,7 @@ public class Person {
     String username;
 
     protected Person() {}
+
 
     public Person(String name, String surname, String pnr, String email, String password, int role_id, String username) {
         this.name = name;
@@ -58,4 +64,5 @@ public class Person {
     public String getUsername() {
         return username;
     }
+
 }
