@@ -2,6 +2,7 @@ package se.kth.iv1201.appserv.jobapp.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.UserDTO;
@@ -20,9 +21,8 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public GenericResponse loginUser(UserDTO userDTO){
-        System.out.println(userDTO.getUsername());
-        return GenericResponse.OK;
+    public GenericResponse loginUser(@RequestBody UserDTO userDTO){
+        return userService.loginUser(userDTO);
     }
 
 }
