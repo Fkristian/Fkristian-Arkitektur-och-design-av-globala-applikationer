@@ -39,7 +39,7 @@ const ApiCall = {
             });
     },
     getData() {
-        const getQueueEndpoint = "/api/users";
+        const getQueueEndpoint = "/any";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
 
