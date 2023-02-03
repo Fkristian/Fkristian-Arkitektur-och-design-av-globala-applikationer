@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.core.config;
+/*package se.kth.iv1201.appserv.jobapp.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,4 +20,4 @@ public class WebSecurityConfig{
         return http.build();
     }
 
-}
+}*/
