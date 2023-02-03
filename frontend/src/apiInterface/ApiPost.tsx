@@ -17,23 +17,26 @@ const ApiPost = {
               "Content-Type, Accept",
           },
 
-      body: JSON.stringify({username: "MartinCummings", password: "test123"}),
+      body: JSON.stringify(object),
       })
-          .then((response: Response) =>
-          response.status === 200
-              ? response
-              : doThrow(
-                  new Error(
-                  "Status was: " + response.statusText + " " + response.status
-                  )
-              )
-          )
-          .then((response) => {
-            if(response == null){
-                console.log("Error");
-            }else{
-                return response.json() as Promise<any>;
-            }
+        .then((response: Response) => {
+              console.log(response)
+        if(response.status === 200){
+            console.log("Logged in successfully")
+            return response.json() as Promise<any>;
+        }
+        else if(response.status === 401){
+            console.log("Wrong credentials")
+        }
+        else if(response == null){
+            console.log("Error");
+        }else{
+            doThrow(
+                new Error(
+                    "Status was: " + response.statusText + " " + response.status + " " + params
+                )
+            )
+        }
 
         });
       },

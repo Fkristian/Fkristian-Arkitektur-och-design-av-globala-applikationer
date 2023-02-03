@@ -34,15 +34,17 @@ export default function LogIn() {
 
 
     function logInAttempt() {
-        console.log(formData)
+        const post = {
+            username :  formData.username,
+            password : formData.password
+
+        }
+        ApiPost.postData(post).then(response => console.log(response));
         navigate("/home");
     }
 
     function test(){
         ApiCall.getData().then(response => console.log(response));
-    }
-    function test2(){
-        ApiPost.postData('1').then(response => console.log(response));
     }
 
 
@@ -98,15 +100,6 @@ export default function LogIn() {
             >
                 {" "}
                 Test
-            </Button>
-            <Button
-                variant="link"
-                width="100%"
-                colorScheme="blue"
-                onClick={test2}
-            >
-                {" "}
-                Test2
             </Button>
         </form>
     </Flex>

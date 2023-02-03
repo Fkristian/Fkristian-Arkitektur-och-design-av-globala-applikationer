@@ -1,6 +1,8 @@
 package se.kth.iv1201.appserv.jobapp.service;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import se.kth.iv1201.appserv.jobapp.domain.Person;
@@ -17,15 +19,17 @@ public class UserService {
         this.personRepository = personRepository;
     }
 
-    public GenericResponse loginUser(UserDTO userDTO) {
+    public ResponseEntity loginUser(UserDTO userDTO) {
         Person person = personRepository.findByUsername(userDTO.getUsername());
         if(person == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User was not found");
+            System.out.println("Wrong username");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         if(!person.getPassword().equals(userDTO.getPassword())){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password missmatch");
+            System.out.println("Wrong password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return GenericResponse.OK;
+        return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 }
