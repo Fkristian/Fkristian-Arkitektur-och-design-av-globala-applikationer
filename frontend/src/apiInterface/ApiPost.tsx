@@ -23,7 +23,7 @@ const ApiPost = {
               console.log(response)
         if(response.status === 200){
             console.log("Logged in successfully")
-            return response.json() as Promise<any>;
+            return response;
         }
         else if(response.status === 401){
             console.log("Wrong credentials")

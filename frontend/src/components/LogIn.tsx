@@ -32,6 +32,12 @@ export default function LogIn() {
         navigate("/SignUp");
     }
 
+    const handleResponse = (response : Response) => {
+        if (response.ok) {
+            navigate("/home");
+        }
+        console.log(response.status)
+    };
 
     function logInAttempt() {
         const post = {
@@ -39,8 +45,7 @@ export default function LogIn() {
             password : formData.password
 
         }
-        ApiPost.postData(post).then(response => console.log(response));
-        navigate("/home");
+        ApiPost.postData(post).then(response => handleResponse(response));
     }
 
     function test(){
@@ -91,15 +96,6 @@ export default function LogIn() {
             >
                 {" "}
                 Create an account
-            </Button>
-            <Button
-                variant="link"
-                width="100%"
-                colorScheme="blue"
-                onClick={test}
-            >
-                {" "}
-                Test
             </Button>
         </form>
     </Flex>
