@@ -6,6 +6,7 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import ApiCall from "../apiInterface/ApiCall";
+import ApiPost from "../apiInterface/ApiPost";
 
 export default function LogIn() {
 
@@ -40,6 +41,10 @@ export default function LogIn() {
     function test(){
         ApiCall.getData().then(response => console.log(response));
     }
+    function test2(){
+        ApiPost.postData('1').then(response => console.log(response));
+    }
+
 
     return(
     <Flex>
@@ -93,6 +98,15 @@ export default function LogIn() {
             >
                 {" "}
                 Test
+            </Button>
+            <Button
+                variant="link"
+                width="100%"
+                colorScheme="blue"
+                onClick={test2}
+            >
+                {" "}
+                Test2
             </Button>
         </form>
     </Flex>
