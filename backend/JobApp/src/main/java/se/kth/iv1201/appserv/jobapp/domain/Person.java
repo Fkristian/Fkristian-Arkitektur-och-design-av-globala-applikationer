@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Person {
     @Id
-    Long personId;
+    int personId;
     String name;
     String surname;
     String pnr;
@@ -27,7 +27,7 @@ public class Person {
         this.username = username;
     }
 
-    public Long getPersonId() {
+    public int getPersonId() {
         return personId;
     }
 
