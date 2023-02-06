@@ -3,7 +3,18 @@ package se.kth.iv1201.appserv.jobapp.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "competence_profile")
 public class CompetenceProfile {
 
     @Id
@@ -12,27 +23,9 @@ public class CompetenceProfile {
     int competenceId;
     double yearsOfExperience;
 
-    protected CompetenceProfile(){}
-
     public CompetenceProfile(int personId, int competenceId, double yearsOfExperience) {
         this.personId = personId;
         this.competenceId = competenceId;
         this.yearsOfExperience = yearsOfExperience;
-    }
-
-    public int getCompetenceProfileId() {
-        return competenceProfileId;
-    }
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public int getCompetenceId() {
-        return competenceId;
-    }
-
-    public double getYearsOfExperience() {
-        return yearsOfExperience;
     }
 }
