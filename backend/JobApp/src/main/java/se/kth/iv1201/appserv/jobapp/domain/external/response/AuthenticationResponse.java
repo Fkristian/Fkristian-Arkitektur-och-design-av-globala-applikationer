@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.domain.external.request;
+package se.kth.iv1201.appserv.jobapp.domain.external.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class AuthenticationResponse {
 
-    String username;
-    String password;
-
+    private String token;
 }

@@ -1,5 +1,14 @@
 package se.kth.iv1201.appserv.jobapp.domain.external.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonDTO {
     String firstname;
     String lastname;
@@ -7,28 +16,4 @@ public class PersonDTO {
     String personnumber;
     String username;
     String password;
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getEmailaddress() {
-        return emailaddress;
-    }
-
-    public String getPersonnumber() {
-        return personnumber;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

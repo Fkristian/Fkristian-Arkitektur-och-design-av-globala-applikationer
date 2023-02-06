@@ -20,7 +20,7 @@ const ApiPost = {
       body: JSON.stringify(object),
       })
         .then((response: Response) => {
-              console.log(response)
+              console.log(response.json())
         if(response.status === 200){
             console.log("Logged in successfully")
             return response;
@@ -43,14 +43,14 @@ const ApiPost = {
       postData(object: any) : Promise<any> {
 
 
-          const postQueueEndpoint = "/any/login";
+          const postQueueEndpoint = "/api/v1/auth/authenticate";
           return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
       },
 
         createData(object: any) : Promise<any> {
 
 
-        const postQueueEndpoint = "/any/register";
+        const postQueueEndpoint = "/api/v1/auth/register";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
         },
 
