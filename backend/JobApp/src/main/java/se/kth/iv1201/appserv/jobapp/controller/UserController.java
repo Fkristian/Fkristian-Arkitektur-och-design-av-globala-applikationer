@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/any")
 public class UserController {
 
     private final UserService userService;
@@ -28,6 +29,7 @@ public class UserController {
     }
     @PostMapping("login")
     public ResponseEntity loginUser(@RequestBody LogInRequest logInRequest){
+        System.out.println("test");
         return userService.loginUser(logInRequest);
     }
 
