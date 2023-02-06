@@ -2,14 +2,14 @@ import Reract, {useState} from "react";
 import {
     Input,
     Flex,
-    Button
+    Button, Text
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import ApiCall from "../apiInterface/ApiCall";
 import ApiPost from "../apiInterface/ApiPost";
 
 export default function SignUp() {
-
+    const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
@@ -17,6 +17,7 @@ export default function SignUp() {
         personnumber: "",
         username: "",
         password: "",
+        passwordControl: "",
     })
 
     const navigate = useNavigate();
@@ -34,21 +35,43 @@ export default function SignUp() {
     const handleResponse = (response : Response) => {
         if (response.ok) {
             navigate("/home");
+        }else{
+            console.log("error" + response.status)
         }
-        console.log(response.status)
     };
 
     function registerAttempt() {
-        const post = {
-            firstname   : formData.firstname,
-            lastname    : formData.lastname,
-            emailaddress: formData.emailaddress,
-            personnumber: formData.personnumber,
-            username    :  formData.username,
-            password    : formData.password
+        if(formData.password === formData.passwordControl){
+            if((formData.firstname !== "") && formData.lastname !== "" && formData.emailaddress !== ""
+                && formData.personnumber !== ""&& formData.username !== ""&& formData.password !== ""){
+                const post = {
+                    firstname   : formData.firstname,
+                    lastname    : formData.lastname,
+                    emailaddress: formData.emailaddress,
+                    personnumber: formData.personnumber,
+                    username    :  formData.username,
+                    password    : formData.password
 
+                }
+                ApiPost.createData(post).then(response => {
+                    if(typeof response === "string"){
+                        setErrorMessage(response)
+                    }else{
+                        handleResponse(response)
+                    }
+                });
+            }else{
+
+                console.log(formData)
+                setErrorMessage("Fill in all the fields")
+            }
+
+        }else{
+            console.log(formData)
+            console.log("asdiasd")
+            setErrorMessage("Passwords dont match")
         }
-        ApiPost.createData(post).then(response => handleResponse(response));
+
     }
 
     function goToLogin() {
@@ -58,6 +81,10 @@ export default function SignUp() {
     return (
         <Flex>
             <form>
+
+                    <Text
+                        color='red'> {errorMessage} </Text>
+
                 <p>
                     <Input
                         className="LogInPage--form"
@@ -122,6 +149,17 @@ export default function SignUp() {
                         name="password"
                         mb={3}
                         value={formData.password}
+                    />
+                </p>
+                <p>
+                    <Input
+                        className="LogInPage--form"
+                        type="password"
+                        placeholder="Confirm password"
+                        onChange={handelChange}
+                        name="passwordControl"
+                        mb={3}
+                        value={formData.passwordControl}
                     />
                 </p>
                 <Button

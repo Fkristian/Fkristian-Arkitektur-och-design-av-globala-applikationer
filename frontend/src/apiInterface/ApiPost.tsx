@@ -28,6 +28,10 @@ const ApiPost = {
         else if(response.status === 401){
             console.log("Wrong credentials")
         }
+        else if(response.status === 409){
+            console.log("Username already exists")
+            return "Username already exists";
+        }
         else if(response == null){
             console.log("Error");
         }else{
@@ -48,8 +52,6 @@ const ApiPost = {
       },
 
         createData(object: any) : Promise<any> {
-
-
         const postQueueEndpoint = "/any/register";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
         },
