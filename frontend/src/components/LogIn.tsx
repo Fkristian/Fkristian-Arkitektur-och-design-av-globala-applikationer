@@ -2,14 +2,14 @@ import Reract, {useState} from "react";
 import {
     Input,
     Flex,
-    Button
+    Button, Text
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import ApiCall from "../apiInterface/ApiCall";
 import ApiPost from "../apiInterface/ApiPost";
 
 export default function LogIn() {
-
+    const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -35,17 +35,27 @@ export default function LogIn() {
     const handleResponse = (response : Response) => {
         if (response.ok) {
             navigate("/home");
+        }else if (response.status === 401){
+            setErrorMessage("Wrong credentials")
         }
-        console.log(response.status)
+
+
     };
 
     function logInAttempt() {
-        const post = {
-            username :  formData.username,
-            password : formData.password
+        if(formData.password === "" || formData.username === ""){
+            setErrorMessage("Fill in all fields")
+        }else{
+            const post = {
+                username :  formData.username,
+                password : formData.password
 
+            }
+            ApiPost.postData(post).then(response => handleResponse(response));
         }
-        ApiPost.postData(post).then(response => handleResponse(response));
+
+
+
     }
 
     function test(){
@@ -57,6 +67,8 @@ export default function LogIn() {
     <Flex>
 
         <form>
+            <Text
+                color='red'> {errorMessage} </Text>
             <p>
                 <Input
                     className="LogInPage--form"

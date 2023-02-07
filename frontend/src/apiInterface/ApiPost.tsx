@@ -6,7 +6,9 @@ function doThrow(e: any) {
 const url = "http://localhost:8088";
 
 const ApiPost = {
+
   apiCall(params: string, object: any) : Promise<any> {
+
       return fetch(url + params, {
       method: "POST", // HTTP method
       //crossDomain: true,
@@ -20,16 +22,16 @@ const ApiPost = {
       body: JSON.stringify(object),
       })
         .then((response: Response) => {
-              console.log(response)
+
         if(response.status === 200){
-            console.log("Logged in successfully")
+           // ("Logged in successfully")
             return response;
         }
         else if(response.status === 401){
-            console.log("Wrong credentials")
+            return response;
         }
         else if(response.status === 409){
-            console.log("Username already exists")
+           //"Username already exists"
             return "Username already exists";
         }
         else if(response == null){
