@@ -28,7 +28,7 @@ public class UserService {
         if(userRepository.findByUsername(registerRequest.getUsername()) == null) {
             Role role = new Role(2, "applicant");
             User user = new User(registerRequest.getFirstname(), registerRequest.getLastname(), registerRequest.getPersonnumber(),
-                    registerRequest.getEmailaddress(), registerRequest.getPassword(), role, registerRequest.getUsername());
+                    registerRequest.getEmailaddress(), registerRequest.getPassword(), role, registerRequest.getUsername(), 2);
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.OK).build();
         }

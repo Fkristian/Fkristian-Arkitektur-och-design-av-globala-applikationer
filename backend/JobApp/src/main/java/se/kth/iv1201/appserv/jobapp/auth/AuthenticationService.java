@@ -1,8 +1,11 @@
 package se.kth.iv1201.appserv.jobapp.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.kth.iv1201.appserv.jobapp.core.config.JwtService;
 import se.kth.iv1201.appserv.jobapp.domain.Role;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
@@ -14,8 +17,9 @@ import se.kth.iv1201.appserv.jobapp.repository.UserRepository;
 public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-
-    public Object register(RegisterRequest request) {
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    public AuthenticationResponse register(RegisterRequest request) {
         Role role = new Role(2, "applicant");
         var user = User.builder()
                 .name(request.getFirstname())
@@ -23,16 +27,29 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .pnr(request.getPersonnumber())
                 .role(role)
+                .role_id(request.getRole_id())
                 .surname(request.getLastname())
                 .username(request.getUsername())
                 .build();
+        System.out.println(user.toString());
+        System.out.println(user.getRole());
                 repository.save(user);
-
-        return null;
+        var jwtToken = jwtService.genereateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public Object authenticate(LogInRequest request) {
-        return null;
+    public AuthenticationResponse authenticate(LogInRequest request) {
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getUsername()
+                )
+        );
+        var user = repository.findByUsername(request.getUsername());
+        //.orElseThrow() behöver Optional
+        var jwtToken = jwtService.genereateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
 

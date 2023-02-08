@@ -31,9 +31,10 @@ public class User implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "role_role_id")
     Role role;
+    int role_id;
     String username;
 
-    public User(String name, String surname, String pnr, String email, String password, Role role, String username) {
+    public User(String name, String surname, String pnr, String email, String password, Role role, String username, int role_id) {
         this.name = name;
         this.surname = surname;
         this.pnr = pnr;
@@ -41,12 +42,13 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
         this.username = username;
+        this.role_id = role_id;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority(role.name));
+        return List.of(new SimpleGrantedAuthority(Integer.toString(role_id)));
     }
 
     @Override

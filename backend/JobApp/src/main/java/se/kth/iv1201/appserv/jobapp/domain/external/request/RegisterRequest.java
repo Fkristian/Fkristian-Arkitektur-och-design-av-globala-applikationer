@@ -16,4 +16,5 @@ public class RegisterRequest {
     String personnumber;
     String username;
     String password;
+    int role_id;
 }
