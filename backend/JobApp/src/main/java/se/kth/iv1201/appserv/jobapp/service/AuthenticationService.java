@@ -3,6 +3,7 @@ package se.kth.iv1201.appserv.jobapp.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class AuthenticationService {
 
     @Transactional
     public AuthenticationResponse register(PersonDTO personDTO){
-        var person = User.builder()
+        var user = User.builder()
                 .name(personDTO.getFirstname())
                 .surname(personDTO.getLastname())
                 .email(personDTO.getEmailaddress())
@@ -33,8 +34,8 @@ public class AuthenticationService {
                 .role(ERole.USER)
                 .pnr(personDTO.getPersonnumber())
                 .build();
-        personRepository.save(person);
-        var jwtToken = jwtService.generateToken(person);
+        personRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -50,7 +51,6 @@ public class AuthenticationService {
         var user = personRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        System.out.println(jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
