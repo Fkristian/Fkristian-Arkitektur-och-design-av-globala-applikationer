@@ -53,7 +53,7 @@ public class UserService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
-                        request.getUsername()
+                        request.getPassword()
                 )
         );
         var user = userRepository.findByUsername(request.getUsername());
