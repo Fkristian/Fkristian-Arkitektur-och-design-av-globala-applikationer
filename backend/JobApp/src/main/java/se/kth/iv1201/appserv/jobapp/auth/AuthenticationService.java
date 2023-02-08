@@ -5,7 +5,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.kth.iv1201.appserv.jobapp.core.config.JwtService;
+import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
+import se.kth.iv1201.appserv.jobapp.service.JwtService;
 import se.kth.iv1201.appserv.jobapp.domain.Role;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
@@ -26,13 +27,10 @@ public class AuthenticationService {
                 .email(request.getEmailaddress())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .pnr(request.getPersonnumber())
-                .role(role)
-                .role_id(request.getRole_id())
+                .role_id(2)
                 .surname(request.getLastname())
                 .username(request.getUsername())
                 .build();
-        System.out.println(user.toString());
-        System.out.println(user.getRole());
                 repository.save(user);
         var jwtToken = jwtService.genereateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();

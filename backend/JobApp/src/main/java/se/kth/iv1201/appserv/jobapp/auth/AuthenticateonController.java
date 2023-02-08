@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.auth;
+/*package se.kth.iv1201.appserv.jobapp.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,4 +26,4 @@ public class AuthenticateonController {
     public ResponseEntity<AuthenticationResponse> register(@RequestBody LogInRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }
-}
+}*/

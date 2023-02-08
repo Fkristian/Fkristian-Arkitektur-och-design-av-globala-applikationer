@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.core.config;
+package se.kth.iv1201.appserv.jobapp.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

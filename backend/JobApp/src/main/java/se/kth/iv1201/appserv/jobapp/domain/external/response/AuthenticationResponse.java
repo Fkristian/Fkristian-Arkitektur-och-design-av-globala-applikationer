@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.auth;
+package se.kth.iv1201.appserv.jobapp.domain.external.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

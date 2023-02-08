@@ -1,5 +1,7 @@
 package se.kth.iv1201.appserv.jobapp.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,34 +11,31 @@ import org.springframework.web.bind.annotation.RestController;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.RegisterRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
+import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
 import se.kth.iv1201.appserv.jobapp.service.UserService;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/any")
+@RequestMapping("/api/v1/auth")
+@AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
-    @PostMapping("login")
-    public ResponseEntity loginUser(@RequestBody LogInRequest logInRequest){
-        System.out.println("test");
-        return userService.loginUser(logInRequest);
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+
+        return userService.register(request);
     }
 
-    @PostMapping("register")
-    public ResponseEntity registerUser(@RequestBody RegisterRequest registerRequest){
-        return userService.registerUser(registerRequest);
-
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody LogInRequest request){
+        return ResponseEntity.ok(userService.authenticate(request));
     }
 
 }

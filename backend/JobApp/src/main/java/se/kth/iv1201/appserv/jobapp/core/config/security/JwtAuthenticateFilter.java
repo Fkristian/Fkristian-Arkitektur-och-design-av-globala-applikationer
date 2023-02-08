@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.core.config;
+package se.kth.iv1201.appserv.jobapp.core.config.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import se.kth.iv1201.appserv.jobapp.service.JwtService;
 
 import java.io.IOException;
 

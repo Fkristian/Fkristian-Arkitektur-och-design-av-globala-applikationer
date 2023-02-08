@@ -1,4 +1,4 @@
-package se.kth.iv1201.appserv.jobapp.core.config;
+package se.kth.iv1201.appserv.jobapp.core.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,11 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import se.kth.iv1201.appserv.jobapp.core.config.security.JwtAuthenticateFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class securityConfig {
+public class WebSecurityConfig {
 
     private final JwtAuthenticateFilter jwtAuthenticateFilter;
 
