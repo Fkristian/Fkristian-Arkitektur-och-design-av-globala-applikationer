@@ -5,9 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.sql.Date;
-
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,14 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "availability")
-public class Availability {
+@Table(name = "application_status")
+public class ApplicationStatus {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    int availabilityId;
-    @Column(name = "person_id")
+    @Column(name="application_status_id")
+    int applicationStatusId;
+    @Column(name="person_id")
     int personId;
-    Date fromDate;
-    Date toDate;
-
+    String status;
 }

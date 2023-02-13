@@ -36,7 +36,7 @@ public class UserService {
                     .email(request.getEmailaddress())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .pnr(request.getPersonnumber())
-                    .role_id(2)
+                    .roleId(2)
                     .surname(request.getLastname())
                     .username(request.getUsername())
                     .build();

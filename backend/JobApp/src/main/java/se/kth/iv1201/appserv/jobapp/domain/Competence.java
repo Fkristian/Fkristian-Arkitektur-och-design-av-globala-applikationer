@@ -1,6 +1,10 @@
 package se.kth.iv1201.appserv.jobapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.Table;
@@ -15,14 +19,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "competence")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Competence {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "competence_id")
     int competenceId;
     String name;
 
-    public Competence(String name) {
-        this.name = name;
-    }
 
 }
