@@ -1,6 +1,6 @@
 package se.kth.iv1201.appserv.jobapp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,8 +43,8 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY)
     private List <Availability> availabilities;
 
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private ApplicationStatus applicationStatus;
 
     @Override
