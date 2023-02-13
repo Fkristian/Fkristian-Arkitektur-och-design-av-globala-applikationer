@@ -1,5 +1,7 @@
 package se.kth.iv1201.appserv.jobapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,14 +29,28 @@ public class User implements UserDetails {
     String surname;
     String pnr;
     String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String password;
-    int role_id;
+    @Column(name="role_id")
+    int roleId;
     String username;
+
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
+    @OneToMany(fetch = FetchType.LAZY)
+    private List <CompetenceProfile> competenceProfiles;
+
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
+    @OneToMany(fetch = FetchType.LAZY)
+    private List <Availability> availabilities;
+
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private ApplicationStatus applicationStatus;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role_id));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roleId));
     }
 
     @Override

@@ -1,6 +1,9 @@
 package se.kth.iv1201.appserv.jobapp.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.sql.Date;
@@ -19,15 +22,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "availability")
 public class Availability {
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     int availabilityId;
+    @Column(name = "person_id")
     int personId;
     Date fromDate;
     Date toDate;
-
-    public Availability(int personId, Date fromDate, Date toDate) {
-        this.personId = personId;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-    }
 
 }

@@ -26,6 +26,7 @@ public class WebSecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/api/application/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("1")
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
