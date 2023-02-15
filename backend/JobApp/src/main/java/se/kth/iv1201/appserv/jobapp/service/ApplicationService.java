@@ -29,6 +29,10 @@ public class ApplicationService {
         return userRepository.findByRoleId(2);
     }
 
+    public User getApplicationById(int id){
+        return userRepository.findByPersonId(id);
+    }
+
     @Transactional
     public ResponseEntity postApplication(ApplicationRequest applicationRequest) {
         int personId = userRepository.findByUsername(jwtService.extractUsername(applicationRequest.getJwt())).getPersonId();
