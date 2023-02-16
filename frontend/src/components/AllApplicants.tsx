@@ -29,7 +29,6 @@ export default function AllApplicants() {
     function changeTheOneToShow(response: any) {
         response.then((r: any) => {
             setTheOneToShow(r)
-            console.log(r)
             setShowAllOrOne("one")
         })
     }
@@ -92,7 +91,7 @@ export default function AllApplicants() {
             id : theOneToSHow.personId
         }
         ApiPut.updateApplicationStatus(post).then(response => console.log(response));
-        setShowAllOrOne("all")
+        getAllApplicants();
     }
 
     function approveApplication() {
@@ -101,7 +100,7 @@ export default function AllApplicants() {
             id : theOneToSHow.personId
         }
         ApiPut.updateApplicationStatus(post).then(response => console.log(response));
-        setShowAllOrOne("all")
+        getAllApplicants();
     }
 
     return(
