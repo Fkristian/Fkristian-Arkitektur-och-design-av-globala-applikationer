@@ -15,6 +15,7 @@ import {
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
+import ApplicantForm from "./components/ApplicantForm"
 export const App = () => (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -26,6 +27,7 @@ export const App = () => (
                 <Route path="/" element={<LogIn />}/>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/signUp" element={<SignUp />}/>
+                <Route path="/applicantForm" element={<ApplicantForm />}/>
               </Routes>
             </Router>
           </VStack>
