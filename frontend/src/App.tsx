@@ -20,6 +20,7 @@ import AllApplicants from "./components/AllApplicants";
 declare global {
   var personOfIntrest: number;
 }
+import ApplicantForm from "./components/ApplicantForm"
 export const App = () => (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -34,6 +35,7 @@ export const App = () => (
                 <Route path="/all" element={<AllApplicants />}/>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/signUp" element={<SignUp />}/>
+                <Route path="/applicantForm" element={<ApplicantForm />}/>
               </Routes>
             </Router>
           </VStack>
