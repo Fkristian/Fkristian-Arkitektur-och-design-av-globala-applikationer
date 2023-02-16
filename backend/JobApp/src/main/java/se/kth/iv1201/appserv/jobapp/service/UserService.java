@@ -9,11 +9,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.kth.iv1201.appserv.jobapp.domain.ApplicationStatus;
 import se.kth.iv1201.appserv.jobapp.domain.Role;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.RegisterRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
+import se.kth.iv1201.appserv.jobapp.repository.ApplicationStatusRepository;
 import se.kth.iv1201.appserv.jobapp.repository.UserRepository;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ApplicationStatusRepository applicationStatusRepository;
 
 
     @Transactional
@@ -40,7 +43,14 @@ public class UserService {
                     .surname(request.getLastname())
                     .username(request.getUsername())
                     .build();
-            userRepository.save(user);
+            int personId = userRepository.save(user).getPersonId();
+
+            var status = ApplicationStatus.builder()
+                    .personId(personId)
+                    .status("notapplied")
+                    .build();
+            applicationStatusRepository.save(status);
+
             var jwtToken = jwtService.genereateToken(user);
             return ResponseEntity.ok(AuthenticationResponse.builder().token(jwtToken).build());
         } else {
