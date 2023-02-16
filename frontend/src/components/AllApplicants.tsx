@@ -20,7 +20,8 @@ export default function AllApplicants() {
         pnr: undefined,
         name: undefined,
         surname: undefined,
-        competenceProfiles: []
+        competenceProfiles: [],
+        personId: undefined
     })
 
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function AllApplicants() {
     function changeTheOneToShow(response: any) {
         response.then((r: any) => {
             setTheOneToShow(r)
+            console.log(r)
             setShowAllOrOne("one")
         })
     }
@@ -85,12 +87,20 @@ export default function AllApplicants() {
     }
 
     function declineApplication() {
-        ApiPut.updateApplicationStatus("declined").then(response => console.log(response));
+        const post = {
+            status : "declined",
+            id : theOneToSHow.personId
+        }
+        ApiPut.updateApplicationStatus(post).then(response => console.log(response));
         setShowAllOrOne("all")
     }
 
     function approveApplication() {
-        ApiPut.updateApplicationStatus("approved").then(response => console.log(response));
+        const post = {
+            status : "approved",
+            id : theOneToSHow.personId
+        }
+        ApiPut.updateApplicationStatus(post).then(response => console.log(response));
         setShowAllOrOne("all")
     }
 
