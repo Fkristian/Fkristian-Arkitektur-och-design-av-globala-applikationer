@@ -43,6 +43,8 @@ export default function AllApplicants() {
         const appList = response.map((element: any) => {
             if(element.applicationStatus == null) {
                 element.applicationStatus = "unhandled"
+            }else{
+                element.applicationStatus = element.applicationStatus.status
             }
             return(
             <Flex
@@ -70,7 +72,6 @@ export default function AllApplicants() {
 
 
         } )
-
         setApplicantsList(appList)
     };
 
@@ -82,31 +83,50 @@ export default function AllApplicants() {
 
     function getAllApplicants() {
         ApiCall.getAllApplicants().then(response => handleResponse(response));
+        clearErrorMessage();
         setShowAllOrOne("all")
     }
 
     function declineApplication() {
         const post = {
             status : "declined",
-            id : theOneToSHow.personId
+            personId : theOneToSHow.personId
         }
-        ApiPut.updateApplicationStatus(post).then(response => console.log(response));
-        getAllApplicants();
+        ApiPut.updateApplicationStatus(post).then(response => {
+            if(response.status !== 200){
+                setErrorMessage("something went wrong")
+            }else{
+                getAllApplicants();
+                clearErrorMessage();
+            }
+        });
+
+    }
+
+    function clearErrorMessage() {
+        setErrorMessage("")
     }
 
     function approveApplication() {
         const post = {
             status : "approved",
-            id : theOneToSHow.personId
+            personId : theOneToSHow.personId
         }
-        ApiPut.updateApplicationStatus(post).then(response => console.log(response));
-        getAllApplicants();
+        ApiPut.updateApplicationStatus(post).then(response => {
+            if(response.status !== 200){
+                setErrorMessage("something went wrong")
+            }else{
+                getAllApplicants();
+                clearErrorMessage();
+            }
+        });
+
     }
 
     return(
     <Flex>
 
-
+    <Text>{errorMessage !== "" && errorMessage}</Text>
         <Flex color={"red.100"}>
             <form>
                 <Text

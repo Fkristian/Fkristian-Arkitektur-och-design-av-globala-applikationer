@@ -80,8 +80,18 @@ public class ApplicationService {
     @Transactional
     public GenericResponse updateApplicationStatus(StatusRequst statusRequst) {
         ApplicationStatus status = applicationStatusRepository.findByPersonId(statusRequst.getPersonId());
-        status.setStatus(statusRequst.getStatus());
-        applicationStatusRepository.save(status);
-        return GenericResponse.OK;
+        if(status == null){
+            status = ApplicationStatus.builder()
+                    .personId(statusRequst.getPersonId())
+                    .status(statusRequst.getStatus())
+                    .build();
+            applicationStatusRepository.save(status);
+            return GenericResponse.OK;
+        }else{
+            status.setStatus(statusRequst.getStatus());
+            applicationStatusRepository.save(status);
+            return GenericResponse.OK;
+        }
+
     }
 }

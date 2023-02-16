@@ -40,6 +40,7 @@ public class ApplicationController {
     }
     @GetMapping("{id}")
     public ResponseEntity <User> getApplicationById(@PathVariable int id){
+
         return ResponseEntity.ok(applicationService.getApplicationById(id));
     }
     @PutMapping("update-status")
