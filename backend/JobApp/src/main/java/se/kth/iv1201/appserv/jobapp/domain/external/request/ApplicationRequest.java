@@ -4,15 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se.kth.iv1201.appserv.jobapp.domain.internal.Competences;
+import se.kth.iv1201.appserv.jobapp.domain.internal.Dates;
 
-import java.sql.Date;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationRequest {
-    String jwt;
-    Date fromDate;
-    Date toDate;
+    List<Dates> dates;
+    List<Competences> competences;
+
 }
+

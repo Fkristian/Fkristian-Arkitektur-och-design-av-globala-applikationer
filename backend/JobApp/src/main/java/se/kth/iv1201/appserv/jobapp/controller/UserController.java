@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +29,15 @@ public class UserController {
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
-    @PostMapping("/register")
+    @PostMapping("register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
 
         return userService.register(request);
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody LogInRequest request){
+        System.out.println("nope");
         return ResponseEntity.ok(userService.authenticate(request));
     }
 
