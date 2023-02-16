@@ -10,7 +10,7 @@ const ApiPost = {
   apiCall(params: string, object: any) : Promise<any> {
 
       return fetch(url + params, {
-      method: "POST", // HTTP method
+      method: "PUT", // HTTP method
       //crossDomain: true,
       headers: {
           "Content-Type": "application/json",
@@ -46,19 +46,10 @@ const ApiPost = {
 
         });
       },
-      postData(object: any) : Promise<any> {
-
-
-          const postQueueEndpoint = "/api/v1/auth/authenticate";
+      updateApplicationStatus(object: any) : Promise<any> {
+        const postQueueEndpoint = "/updateStatus";
           return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
       },
-
-        createData(object: any) : Promise<any> {
-        const postQueueEndpoint = "/api/v1/auth/register";
-        return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
-        },
-
-
   };
 
 export default ApiPost;

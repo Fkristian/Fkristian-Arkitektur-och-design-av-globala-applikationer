@@ -33,13 +33,17 @@ const ApiCall = {
                 if(response == null){
                     console.log("Error");
                 }else{
-                    return response.json() as Promise<any>;
+                    return response.json();
                 }
 
             });
     },
     getData() {
         const getQueueEndpoint = "/any";
+        return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
+    },
+    getAllApplicants() {
+        const getQueueEndpoint = "/api/application/all";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
 

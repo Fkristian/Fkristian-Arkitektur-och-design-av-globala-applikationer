@@ -15,6 +15,11 @@ import {
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
+import AllApplicants from "./components/AllApplicants";
+
+declare global {
+  var personOfIntrest: number;
+}
 export const App = () => (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -23,7 +28,10 @@ export const App = () => (
           <VStack spacing={8}>
             <Router>
               <Routes>
+
                 <Route path="/" element={<LogIn />}/>
+
+                <Route path="/all" element={<AllApplicants />}/>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/signUp" element={<SignUp />}/>
               </Routes>
