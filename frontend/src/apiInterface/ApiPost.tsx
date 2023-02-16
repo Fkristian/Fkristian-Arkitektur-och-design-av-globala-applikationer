@@ -58,6 +58,11 @@ const ApiPost = {
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
         },
 
+    createApplication(object: any) : Promise<any> {
+        const postQueueEndpoint = "/api/v1/auth/application";
+        return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
+    },
+
   };
 
 export default ApiPost;

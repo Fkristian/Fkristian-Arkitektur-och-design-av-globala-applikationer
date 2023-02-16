@@ -72,31 +72,42 @@ export default function ApplicantForm() {
     function test1(){
         console.log(competenceArray)
         console.log(availabilityArray)
+
+        ApiPost.createApplication(competenceArray).then(response => {
+            if(typeof response === "string"){
+                setErrorMessage(response)
+            }else{
+                handleResponse(response)
+            }
+        });
+        ApiPost.createApplication(availabilityArray).then(response => {
+            if(typeof response === "string"){
+                setErrorMessage(response)
+            }else{
+                handleResponse(response)
+            }
+        });
     }
 
     const handleResponse = (response : Response) => {
         if (response.ok) {
-            navigate("/home");
+            console.log("ok");
         }else{
             console.log("error" + response.status)
         }
     };
 
+    /*
     function showCompetences() {
         if (competenceArray.length > 0) {
-        return (
-            <Flex >
-                {competenceArray.map((index) => {
-                    return(
-                    <React.Fragment key={index}>
-                        index.competence
-                    </React.Fragment>
-                    )
-                })};
-            </Flex>
-    )
+                const val = competenceArray.map(item => {
+                return <text>item</text>
+            })
         }
+        else return null
     };
+
+     */
 
     return(
         <VStack>
@@ -157,7 +168,6 @@ export default function ApplicantForm() {
                     Add Availability Period
                 </Button>
             </form>
-            showCompetences()
             <Button
                 variant="link"
                 width="100%"
