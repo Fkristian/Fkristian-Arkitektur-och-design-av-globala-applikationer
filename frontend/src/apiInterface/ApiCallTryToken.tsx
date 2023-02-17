@@ -10,14 +10,17 @@ interface Params {
 
 const ApiCall = {
     apiCall(params: String) {
+        var token = localStorage.getItem("access_token")
         return fetch(url + params, {
             method: "GET", // HTTP method
             //crossDomain: true,
             headers: {
                 // HTTP headers
+                "Authorization":"Bearer "+ token,
                 "Content-Type": "application/json",
-                "Access-Control-Request-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-                "Authorization":"Bearer "+ localStorage.getItem("access_token"),
+                "Access-Control-Request-Headers": "Authorization, Origin, X-Requested-With, "+
+                "Content-Type, Accept",
+        
             },
         })
             .then((response: Response) =>

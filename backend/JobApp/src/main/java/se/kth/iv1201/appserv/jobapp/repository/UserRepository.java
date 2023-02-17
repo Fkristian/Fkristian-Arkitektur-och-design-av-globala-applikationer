@@ -16,7 +16,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByPersonId(int id);
 
     @Query("select u from User u inner join ApplicationStatus app on u.personId = app.personId "+
-            "where not app.status = 'unapplied'")
+            "where not app.status = 'unapplied'" +
+            "order by u.personId")
     List<User> findByRoleId(Integer id);
 
 }
