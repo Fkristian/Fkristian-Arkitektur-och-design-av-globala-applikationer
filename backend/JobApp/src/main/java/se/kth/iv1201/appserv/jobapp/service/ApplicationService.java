@@ -22,6 +22,7 @@ import se.kth.iv1201.appserv.jobapp.repository.CompetenceProfileRepository;
 import se.kth.iv1201.appserv.jobapp.repository.CompetenceRepository;
 import se.kth.iv1201.appserv.jobapp.repository.UserRepository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -41,38 +42,41 @@ public class ApplicationService {
     public User getApplicationById(int id){
         return userRepository.findByPersonId(id);
     }
-    @Transactional
-    public ResponseEntity postApplication(ApplicationRequest applicationRequest, @NonNull HttpServletRequest httpServletRequest) {
 
+    @Transactional
+    public ResponseEntity postApplication(ApplicationRequest applicationRequest) {
+        /*
         final String authHeader = httpServletRequest.getHeader("Authorization");
         final String jwt;
         final String username;
         jwt = authHeader.substring(7);
         username = jwtService.extractUsername(jwt);
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);*/
 
-        for (Dates dates : applicationRequest.getDates()) {
+        for (Dates dates : applicationRequest.getAvailabilityArray()) {
             var availability = Availability.builder()
-                    .personId(user.getPersonId())
-                    .fromDate(dates.getFromDate())
-                    .toDate(dates.getToDate())
+                    .personId(1032)
+                    .fromDate(Date.valueOf(dates.getStartDate()))
+                    .toDate(Date.valueOf(dates.getEndDate()))
                     .build();
             availabilityRepository.save(availability);
         }
 
-        for (Competences competences: applicationRequest.getCompetences()) {
-        var competence = Competence.builder()
-                .name(competences.getName())
-                .build();
-        int compId = competenceRepository.save(competence).getCompetenceId();
+        for (Competences competences: applicationRequest.getCompetenceArray()) {
+
+        int compId = competenceRepository.findByName(competences.getCompetence()).getCompetenceId();
 
         var competenceProfile = CompetenceProfile.builder()
-                .personId(user.getPersonId())
+                .personId(1032)
                 .competenceId(compId)
-                .yearsOfExperience(competences.getYearsOfExperience())
+                .yearsOfExperience(Double.parseDouble(competences.getYearsOfExperience()))
                 .build();
         competenceProfileRepository.save(competenceProfile);
         }
+
+        ApplicationStatus status = applicationStatusRepository.findByPersonId(1032);
+        status.setStatus("unhandled");
+        applicationStatusRepository.save(status);
 
         return ResponseEntity.ok().build();
     }

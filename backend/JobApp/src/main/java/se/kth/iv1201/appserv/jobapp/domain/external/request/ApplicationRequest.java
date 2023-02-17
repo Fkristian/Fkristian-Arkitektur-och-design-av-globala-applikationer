@@ -14,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationRequest {
-    List<Dates> dates;
-    List<Competences> competences;
+    List<Dates> availabilityArray;
+    List<Competences> competenceArray;
 
 }
 

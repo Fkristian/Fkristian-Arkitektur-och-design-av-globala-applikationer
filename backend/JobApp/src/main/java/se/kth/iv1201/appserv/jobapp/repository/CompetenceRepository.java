@@ -6,4 +6,5 @@ import se.kth.iv1201.appserv.jobapp.domain.Competence;
 
 @Repository
 public interface CompetenceRepository extends JpaRepository <Competence, Integer> {
+    Competence findByName(String name);
 }

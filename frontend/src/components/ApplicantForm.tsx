@@ -72,15 +72,9 @@ export default function ApplicantForm() {
     function test1(){
         console.log(competenceArray)
         console.log(availabilityArray)
+        const application = {competenceArray, availabilityArray}
 
-        ApiPost.createApplication(competenceArray).then(response => {
-            if(typeof response === "string"){
-                setErrorMessage(response)
-            }else{
-                handleResponse(response)
-            }
-        });
-        ApiPost.createApplication(availabilityArray).then(response => {
+        ApiPost.createApplication(application).then(response => {
             if(typeof response === "string"){
                 setErrorMessage(response)
             }else{
