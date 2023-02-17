@@ -81,6 +81,23 @@ export default function ApplicantForm() {
             setAvailabilityArray(availabilityArray.concat(post))
         }
     }
+    function clearApplication(){
+        setErrorMessage("")
+        setCompErrorMessage("")
+        setAvErrorMessage("")
+        setCompetenceArray([])
+        setAvailabilityArray([])
+    }
+
+    function cancelApplication(){
+        setErrorMessage("")
+        setCompErrorMessage("")
+        setAvErrorMessage("")
+        setCompetenceArray([])
+        setAvailabilityArray([])
+        navigate("/home");
+    }
+
     function handInApplication(){
         if(competenceArray.length < 1 || availabilityArray.length < 1){
             setErrorMessage("Add at least one competence and one availability period")
@@ -193,12 +210,28 @@ export default function ApplicantForm() {
             </Flex>
             <Text color='red'> {errorMessage} </Text>
             <Button
+                width="50%"
+                colorScheme="blue"
+                onClick={handInApplication}
+                mb={3}
+            >
+                Hand in Application
+            </Button>
+            <Button
                 variant="link"
                 width="100%"
                 colorScheme="blue"
-                onClick={handInApplication}
+                onClick={clearApplication}
             >
-                Hand in Application
+                Clear Application
+            </Button>
+            <Button
+                variant="link"
+                width="100%"
+                colorScheme="blue"
+                onClick={cancelApplication}
+            >
+                Cancel Application
             </Button>
 
         </VStack>
