@@ -10,6 +10,8 @@ import ApiCall from "../apiInterface/ApiCall";
 import ApiPost from "../apiInterface/ApiPost";
 
 export default function ApplicantForm() {
+    const [avErrorMessage, setAvErrorMessage] = useState("")
+    const [compErrorMessage, setCompErrorMessage] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const [competenceArray, setCompetenceArray] = useState([])
     const [availabilityArray, setAvailabilityArray] = useState([])
@@ -43,11 +45,15 @@ export default function ApplicantForm() {
     }
 
     function addCompetence() {
-
         if(compFormData.competence === "" || compFormData.yearsOfExperience === ""){
-            setErrorMessage("Fill in all fields")
-        }else{
-
+            setCompErrorMessage("Fill in all fields")
+        }
+        else if(!/^[0-9.]*$/.test(compFormData.yearsOfExperience)){
+            setCompErrorMessage("Use the format x.xx for Years of Experience")
+        }
+        else{
+            setCompErrorMessage("")
+            setErrorMessage("")
             const post:any = {
                 competence :  compFormData.competence,
                 yearsOfExperience : compFormData.yearsOfExperience
@@ -59,8 +65,14 @@ export default function ApplicantForm() {
 
     function addAvailability() {
         if(avFormData.startDate === "" || avFormData.endDate === ""){
-            setErrorMessage("Fill in all fields")
-        }else{
+            setAvErrorMessage("Fill in all fields")
+        }
+        else if(avFormData.startDate >= avFormData.endDate){
+            setAvErrorMessage("Make sure that the End Date comes after the Start Date")
+        }
+        else{
+            setAvErrorMessage("")
+            setErrorMessage("")
             const post:any = {
                 startDate :  avFormData.startDate,
                 endDate : avFormData.endDate
@@ -69,18 +81,23 @@ export default function ApplicantForm() {
             setAvailabilityArray(availabilityArray.concat(post))
         }
     }
-    function test1(){
-        console.log(competenceArray)
-        console.log(availabilityArray)
-        const application = {competenceArray, availabilityArray}
+    function handInApplication(){
+        if(competenceArray.length < 1 || availabilityArray.length < 1){
+            setErrorMessage("Add at least one competence and one availability period")
+        }
+        else{
+            const application = {competenceArray, availabilityArray}
 
-        ApiPost.createApplication(application).then(response => {
-            if(typeof response === "string"){
-                setErrorMessage(response)
-            }else{
-                handleResponse(response)
-            }
-        });
+            ApiPost.createApplication(application).then(response => {
+                if(typeof response === "string"){
+                    setErrorMessage(response)
+                }
+                else{
+                    handleResponse(response)
+                }
+            });
+            setErrorMessage("Application submitted!")
+        }
     }
 
     const handleResponse = (response : Response) => {
@@ -91,24 +108,26 @@ export default function ApplicantForm() {
         }
     };
 
-    /*
-    function showCompetences() {
-        if (competenceArray.length > 0) {
-                const val = competenceArray.map(item => {
-                return <text>item</text>
-            })
-        }
-        else return null
-    };
+    const showCompetences = () => {
+        const items = competenceArray.map((element, index)=>
+            <div key={index}>{element['competence']} - {element['yearsOfExperience']}</div>)
+        return <div>{'Added Competences and Years of Experience:'}{items}</div>
+    }
 
-     */
+    const showAvailability = () => {
+        const items = availabilityArray.map((element, index)=>
+            <div key={index}>{element['startDate']} - {element['endDate']}</div>)
+        return <div>{'Added Availability periods:'}{items}</div>
+    }
+
+
 
     return(
         <VStack>
 
             <form>
-                <Text color='red'> {errorMessage} </Text>
                 <h3>Add Competences</h3>
+                <Text color='red'> {compErrorMessage} </Text>
                 <Select placeholder='Select option' onChange={handleCompChange} name="competence">
                     <option defaultValue={compFormData.competence} label="Ticket Sales">ticket sales</option>
                     <option defaultValue={compFormData.competence} label="Lotteries">lotteries</option>
@@ -133,40 +152,51 @@ export default function ApplicantForm() {
             </form>
 
             <form>
-                <Text color='red'> {errorMessage} </Text>
                 <h3>Add Availability Periods</h3>
-                <Input
-                    width="50%"
-                    type="text"
-                    placeholder="Start Date yyyy-mm-dd"
-                    onChange={handleAvChange}
-                    name="startDate"
-                    mb={3}
-                    defaultValue={avFormData.startDate}
-                />
-                <Input
-                    width="50%"
-                    type="text"
-                    placeholder="End Date yyyy-mm-dd"
-                    onChange={handleAvChange}
-                    name="endDate"
-                    mb={3}
-                    defaultValue={avFormData.endDate}
-                />
-                <Button
-                    width="50%"
-                    colorScheme="blue"
-                    onClick={addAvailability}
-                    mb={3}
-                >
-                    Add Availability Period
-                </Button>
+                <Text color='red'> {avErrorMessage} </Text>
+                <label>
+                    Start Date:
+                    <Input
+                        width="100%"
+                        type="date"
+                        onChange={handleAvChange}
+                        name="startDate"
+                        mb={3}
+                        defaultValue={avFormData.startDate}
+                    />
+                </label>
+                <label>
+                    End Date:
+                    <Input
+                        width="100%"
+                        type="date"
+                        onChange={handleAvChange}
+                        name="endDate"
+                        mb={3}
+                        defaultValue={avFormData.endDate}
+                    />
+                </label>
             </form>
+            <Button
+                width="50%"
+                colorScheme="blue"
+                onClick={addAvailability}
+                mb={3}
+            >
+                Add Availability Period
+            </Button>
+            <Flex>
+                {showCompetences()}
+            </Flex>
+            <Flex>
+                {showAvailability()}
+            </Flex>
+            <Text color='red'> {errorMessage} </Text>
             <Button
                 variant="link"
                 width="100%"
                 colorScheme="blue"
-                onClick={test1}
+                onClick={handInApplication}
             >
                 Hand in Application
             </Button>
