@@ -13,6 +13,17 @@ public class JobAppApplication {
         SpringApplication.run(JobAppApplication.class, args);
     }
 
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/admin").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/").allowedOrigins("http://localhost:3000");
+//
+//            }
+//        };
+//    }
 
 }
 //fixa cors i denna och

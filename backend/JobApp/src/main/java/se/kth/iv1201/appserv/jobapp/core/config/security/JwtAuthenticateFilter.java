@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import se.kth.iv1201.appserv.jobapp.service.JwtService;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Component
 @RequiredArgsConstructor
@@ -31,6 +32,8 @@ public class JwtAuthenticateFilter extends OncePerRequestFilter {
             @NonNull  FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
+        Enumeration<String> x = request.getHeaderNames();
+        System.out.println(x);
         final String jwt;
         final String username;
         if(authHeader == null || !authHeader.startsWith("Bearer ")){

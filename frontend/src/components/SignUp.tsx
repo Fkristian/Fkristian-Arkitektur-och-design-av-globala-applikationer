@@ -53,7 +53,7 @@ export default function SignUp() {
                     password    : formData.password
 
                 }
-                ApiPost.createData(post).then(response => {
+                ApiPost.createAccount(post).then(response => {
                     if(typeof response === "string"){
                         setErrorMessage(response)
                     }else{

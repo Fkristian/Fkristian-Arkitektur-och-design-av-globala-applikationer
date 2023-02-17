@@ -58,7 +58,7 @@ export default function LogIn() {
                 password : formData.password
 
             }
-            ApiPost.postData(post).then(response => handleResponse(response));
+            ApiPost.logIn(post).then(response => handleResponse(response));
         }
 
 
