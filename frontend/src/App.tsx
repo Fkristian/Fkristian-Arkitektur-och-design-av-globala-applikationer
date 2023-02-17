@@ -16,6 +16,7 @@ import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import AllApplicants from "./components/AllApplicants";
+import ApplicantForm from "./components/ApplicantForm"
 
 declare global {
   var token: String;
@@ -34,6 +35,7 @@ export const App = () => (
                 <Route path="/all" element={<AllApplicants />}/>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/signUp" element={<SignUp />}/>
+                <Route path="/applicantForm" element={<ApplicantForm />}/>
               </Routes>
             </Router>
           </VStack>
