@@ -18,7 +18,7 @@ import SignUp from "./components/SignUp";
 import AllApplicants from "./components/AllApplicants";
 
 declare global {
-  var personOfIntrest: number;
+  var token: String;
 }
 export const App = () => (
     <ChakraProvider theme={theme}>

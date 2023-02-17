@@ -47,8 +47,6 @@ const ApiPost = {
         });
       },
       postData(object: any) : Promise<any> {
-
-
           const postQueueEndpoint = "/api/v1/auth/authenticate";
           return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
       },

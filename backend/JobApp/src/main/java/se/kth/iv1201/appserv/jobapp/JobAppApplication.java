@@ -15,3 +15,4 @@ public class JobAppApplication {
 
 
 }
+//fixa cors i denna och

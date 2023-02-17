@@ -76,11 +76,6 @@ export default function AllApplicants() {
     };
 
 
-
-
-
-
-
     function getAllApplicants() {
         ApiCall.getAllApplicants().then(response => handleResponse(response));
         clearErrorMessage();
@@ -89,7 +84,7 @@ export default function AllApplicants() {
 
     function declineApplication() {
         const post = {
-            status : "declined",
+            status : "rejected",
             personId : theOneToSHow.personId
         }
         ApiPut.updateApplicationStatus(post).then(response => {
@@ -100,7 +95,6 @@ export default function AllApplicants() {
                 clearErrorMessage();
             }
         });
-
     }
 
     function clearErrorMessage() {

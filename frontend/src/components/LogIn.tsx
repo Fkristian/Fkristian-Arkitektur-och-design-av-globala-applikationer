@@ -33,7 +33,14 @@ export default function LogIn() {
     }
 
     const handleResponse = (response : Response) => {
+
         if (response.ok) {
+            var token = null;
+            response.json().then((token:any) => {
+                window.localStorage.setItem('access_token', token.token)
+                console.log(token.token)
+            })
+
             navigate("/home");
         }else if (response.status === 401){
             setErrorMessage("Wrong credentials")

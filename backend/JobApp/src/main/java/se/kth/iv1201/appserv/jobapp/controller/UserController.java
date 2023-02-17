@@ -37,7 +37,6 @@ public class UserController {
 
     @PostMapping("authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody LogInRequest request){
-        System.out.println("nope");
         return ResponseEntity.ok(userService.authenticate(request));
     }
 
