@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 public class Competence {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "competence_id")
     int competenceId;
     String name;

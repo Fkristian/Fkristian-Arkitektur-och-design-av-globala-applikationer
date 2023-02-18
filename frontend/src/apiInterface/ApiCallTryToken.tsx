@@ -11,7 +11,6 @@ interface Params {
 const ApiCall = {
 
     apiCall(params: String) {
-
         return fetch(url + params, {
             method: "GET", // HTTP method
             //crossDomain: true,

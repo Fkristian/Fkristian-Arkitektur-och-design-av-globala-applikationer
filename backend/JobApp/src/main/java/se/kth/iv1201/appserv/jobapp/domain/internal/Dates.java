@@ -12,6 +12,6 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Dates {
-    Date fromDate;
-    Date toDate;
+    String startDate;
+    String endDate;
 }

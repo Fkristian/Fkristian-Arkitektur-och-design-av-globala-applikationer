@@ -16,7 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import se.kth.iv1201.appserv.jobapp.core.config.security.JwtAuthenticateFilter;
 
 import java.util.Arrays;
+
 import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity

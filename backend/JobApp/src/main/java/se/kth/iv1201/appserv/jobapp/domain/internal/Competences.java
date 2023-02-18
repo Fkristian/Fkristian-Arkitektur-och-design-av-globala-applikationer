@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Competences {
-    String name;
-    double yearsOfExperience;
+    String competence;
+    String yearsOfExperience;
 }

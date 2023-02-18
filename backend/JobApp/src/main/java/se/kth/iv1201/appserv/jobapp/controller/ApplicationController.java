@@ -16,6 +16,8 @@ import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.ApplicationRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.StatusRequst;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.GenericResponse;
+import se.kth.iv1201.appserv.jobapp.domain.internal.Competences;
+import se.kth.iv1201.appserv.jobapp.domain.internal.Dates;
 import se.kth.iv1201.appserv.jobapp.service.ApplicationService;
 import se.kth.iv1201.appserv.jobapp.service.JwtService;
 
@@ -48,10 +50,10 @@ public class ApplicationController {
         return applicationService.updateApplicationStatus(statusRequest);
     }
     @PostMapping("post")
-    public ResponseEntity postApplication(@RequestBody ApplicationRequest applicationRequest, @NonNull HttpServletRequest httpServletRequest){
-        System.out.println(applicationRequest.getCompetences());
-        return ResponseEntity.ok().build();
-        //return applicationService.postApplication(applicationRequest, httpServletRequest);
+    public ResponseEntity postApplication(@RequestBody ApplicationRequest applicationRequest){
+        System.out.println(applicationRequest.getAvailabilityArray());
+        //return ResponseEntity.ok().build();
+        return applicationService.postApplication(applicationRequest);
     }
 
 }
