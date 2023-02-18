@@ -34,6 +34,10 @@ export default function SignUp() {
 
     const handleResponse = (response : Response) => {
         if (response.ok) {
+            response.json().then((token:any) => {
+                window.localStorage.setItem('access_token', token.token)
+                console.log(token.token)
+            })
             navigate("/home");
         }else{
             console.log("error" + response.status)
