@@ -5,7 +5,6 @@ import {
     Button, Text
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
-import ApiCall from "../apiInterface/ApiCall";
 import ApiPost from "../apiInterface/ApiPost";
 
 export default function SignUp() {

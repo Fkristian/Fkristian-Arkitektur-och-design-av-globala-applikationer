@@ -5,7 +5,7 @@ function doThrow(e: any) {
 
 const url = "http://localhost:8088";
 
-const ApiCall = {
+const ApiCallWithToken = {
 
   apiCall(params: string, object: any) : Promise<any> {
 
@@ -49,8 +49,8 @@ const ApiCall = {
       },
       updateApplicationStatus(object: any) : Promise<any> {
         const postQueueEndpoint = "/api/application/update-status";
-          return ApiCall.apiCall(postQueueEndpoint, object).then((data) => data);
+          return ApiCallWithToken.apiCall(postQueueEndpoint, object).then((data) => data);
       },
   };
 //window.localStorage.getItem('access_token')
-export default ApiCall;
+export default ApiCallWithToken;
