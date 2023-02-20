@@ -13,6 +13,7 @@ const ApiPost = {
       method: "POST", // HTTP method
       //crossDomain: true,
       headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token") ,
           "Content-Type": "application/json",
           "Access-Control-Request-Headers":
               "Authorization, Origin, X-Requested-With, "
@@ -46,15 +47,11 @@ const ApiPost = {
 
         });
       },
-      logIn(object: any) : Promise<any> {
-          const postQueueEndpoint = "/api/v1/auth/authenticate";
-          return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
-      },
-
-        createAccount(object: any) : Promise<any> {
-        const postQueueEndpoint = "/api/v1/auth/register";
+    createApplication(object: any) : Promise<any> {
+        console.log(object)
+        const postQueueEndpoint = "/api/application/post";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
-        },
+    },
 
   };
 

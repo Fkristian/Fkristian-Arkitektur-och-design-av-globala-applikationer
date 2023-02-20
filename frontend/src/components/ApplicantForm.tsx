@@ -6,8 +6,7 @@ import {
     Button, Text, Select, VStack
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
-import ApiCall from "../apiInterface/ApiCall";
-import ApiPost from "../apiInterface/ApiPost";
+import ApiPostWithToken from "../apiInterface/ApiPostWithToken";
 
 export default function ApplicantForm() {
     const [avErrorMessage, setAvErrorMessage] = useState("")
@@ -105,7 +104,7 @@ export default function ApplicantForm() {
         else{
             const application = {competenceArray, availabilityArray}
 
-            ApiPost.createApplication(application).then(response => {
+            ApiPostWithToken.createApplication(application).then(response => {
                 if(typeof response === "string"){
                     setErrorMessage(response)
                 }

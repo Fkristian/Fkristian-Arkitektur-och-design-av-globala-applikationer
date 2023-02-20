@@ -15,7 +15,6 @@ const ApiCall = {
             //crossDomain: true,
             headers: {
                 // HTTP headers
-                "Authorization": "Bearer " + localStorage.getItem("access_token") ,
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Headers":
                     "Origin, X-Requested-With, Content-Type, Accept",
