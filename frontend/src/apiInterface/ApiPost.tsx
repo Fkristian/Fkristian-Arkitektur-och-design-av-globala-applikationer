@@ -14,7 +14,6 @@ const ApiPost = {
       //crossDomain: true,
       headers: {
         // HTTP headers
-        "Authorization": "Bearer " + localStorage.getItem("access_token") ,
         "Content-Type": "application/json",
         "Access-Control-Request-Headers":
             "Authorization, Origin, X-Requested-With, "
