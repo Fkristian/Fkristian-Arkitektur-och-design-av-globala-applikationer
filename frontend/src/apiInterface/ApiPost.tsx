@@ -13,12 +13,13 @@ const ApiPost = {
       method: "POST", // HTTP method
       //crossDomain: true,
       headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Request-Headers":
-              "Authorization, Origin, X-Requested-With, "
-              +   "Content-Type, Accept",
-          },
-
+        // HTTP headers
+        "Authorization": "Bearer " + localStorage.getItem("access_token") ,
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers":
+            "Authorization, Origin, X-Requested-With, "
+        +   "Content-Type, Accept",
+    },
       body: JSON.stringify(object),
       })
         .then((response: Response) => {

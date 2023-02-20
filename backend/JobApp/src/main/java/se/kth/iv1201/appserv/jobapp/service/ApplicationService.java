@@ -3,6 +3,7 @@ package se.kth.iv1201.appserv.jobapp.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,37 +45,13 @@ public class ApplicationService {
     }
 
     @Transactional
-    public ResponseEntity postApplication(ApplicationRequest applicationRequest) {
-        /*
-        final String authHeader = httpServletRequest.getHeader("Authorization");
-        final String jwt;
-        final String username;
-        jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
-        User user = userRepository.findByUsername(username);*/
+    public ResponseEntity postApplication(ApplicationRequest applicationRequest, HttpServletRequest request) {
+        String username = getUserFromToken(request);
+        User user = userRepository.findByUsername(username);
+        insertAvailability(applicationRequest, user.getPersonId());
+        insertCompetence(applicationRequest, user.getPersonId());
 
-        for (Dates dates : applicationRequest.getAvailabilityArray()) {
-            var availability = Availability.builder()
-                    .personId(1032)
-                    .fromDate(Date.valueOf(dates.getStartDate()))
-                    .toDate(Date.valueOf(dates.getEndDate()))
-                    .build();
-            availabilityRepository.save(availability);
-        }
-
-        for (Competences competences: applicationRequest.getCompetenceArray()) {
-
-        int compId = competenceRepository.findByName(competences.getCompetence()).getCompetenceId();
-
-        var competenceProfile = CompetenceProfile.builder()
-                .personId(1032)
-                .competenceId(compId)
-                .yearsOfExperience(Double.parseDouble(competences.getYearsOfExperience()))
-                .build();
-        competenceProfileRepository.save(competenceProfile);
-        }
-
-        ApplicationStatus status = applicationStatusRepository.findByPersonId(1032);
+        ApplicationStatus status = applicationStatusRepository.findByPersonId(user.getPersonId());
         status.setStatus("unhandled");
         applicationStatusRepository.save(status);
 
@@ -97,5 +74,36 @@ public class ApplicationService {
             return GenericResponse.OK;
         }
 
+    }
+
+    private void insertCompetence(ApplicationRequest applicationRequest, int id){
+        for (Competences competences: applicationRequest.getCompetenceArray()) {
+
+            int compId = competenceRepository.findByName(competences.getCompetence()).getCompetenceId();
+
+            var competenceProfile = CompetenceProfile.builder()
+                    .personId(id)
+                    .competenceId(compId)
+                    .yearsOfExperience(Double.parseDouble(competences.getYearsOfExperience()))
+                    .build();
+            competenceProfileRepository.save(competenceProfile);
+        }
+    }
+
+    private void insertAvailability(ApplicationRequest applicationRequest, int id){
+        for (Dates dates : applicationRequest.getAvailabilityArray()) {
+            var availability = Availability.builder()
+                    .personId(id)
+                    .fromDate(Date.valueOf(dates.getStartDate()))
+                    .toDate(Date.valueOf(dates.getEndDate()))
+                    .build();
+            availabilityRepository.save(availability);
+        }
+    }
+
+    private String getUserFromToken(HttpServletRequest request){
+        String authHeader = request.getHeader("Authorization");
+        String jwt = authHeader.substring(7);
+        return jwtService.extractUsername(jwt);
     }
 }

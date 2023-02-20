@@ -2,6 +2,7 @@ package se.kth.iv1201.appserv.jobapp.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,10 +51,8 @@ public class ApplicationController {
         return applicationService.updateApplicationStatus(statusRequest);
     }
     @PostMapping("post")
-    public ResponseEntity postApplication(@RequestBody ApplicationRequest applicationRequest){
-        System.out.println(applicationRequest.getAvailabilityArray());
-        //return ResponseEntity.ok().build();
-        return applicationService.postApplication(applicationRequest);
+    public ResponseEntity postApplication(@RequestBody ApplicationRequest applicationRequest, HttpServletRequest request){
+        return applicationService.postApplication(applicationRequest, request);
     }
 
 }
