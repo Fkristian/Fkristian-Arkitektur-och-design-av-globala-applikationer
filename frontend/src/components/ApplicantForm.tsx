@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ApiPostWithToken from "../apiInterface/ApiPostWithToken";
 
+
 export default function ApplicantForm() {
     const [avErrorMessage, setAvErrorMessage] = useState("")
     const [compErrorMessage, setCompErrorMessage] = useState("")
