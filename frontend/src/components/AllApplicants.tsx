@@ -5,9 +5,8 @@ import {
     Button, Text, Select, Square, VStack
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
-import ApiCall from "../apiInterface/ApiCall";
-import ApiPost from "../apiInterface/ApiPost";
-import ApiPut from "../apiInterface/ApiPut";
+import ApiPutWithToken from "../apiInterface/ApiPutWithToken";
+import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
 
 export default function AllApplicants() {
     const [errorMessage, setErrorMessage] = useState("")
@@ -77,7 +76,7 @@ export default function AllApplicants() {
 
 
     function getAllApplicants() {
-        ApiCall.getAllApplicants().then(response => handleResponse(response));
+        ApiCallTryToken.getAllApplicants().then(response => handleResponse(response));
         clearErrorMessage();
         setShowAllOrOne("all")
     }
@@ -87,7 +86,7 @@ export default function AllApplicants() {
             status : "rejected",
             personId : theOneToSHow.personId
         }
-        ApiPut.updateApplicationStatus(post).then(response => {
+        ApiPutWithToken.updateApplicationStatus(post).then(response => {
             if(response.status !== 200){
                 setErrorMessage("something went wrong")
             }else{
@@ -106,7 +105,7 @@ export default function AllApplicants() {
             status : "approved",
             personId : theOneToSHow.personId
         }
-        ApiPut.updateApplicationStatus(post).then(response => {
+        ApiPutWithToken.updateApplicationStatus(post).then(response => {
             if(response.status !== 200){
                 setErrorMessage("something went wrong")
             }else{

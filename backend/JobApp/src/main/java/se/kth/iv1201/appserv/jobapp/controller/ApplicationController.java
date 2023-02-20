@@ -48,6 +48,7 @@ public class ApplicationController {
     }
     @PutMapping("update-status")
     public GenericResponse updateApplicationStatus(@RequestBody StatusRequst statusRequest){
+
         return applicationService.updateApplicationStatus(statusRequest);
     }
     @PostMapping("post")
