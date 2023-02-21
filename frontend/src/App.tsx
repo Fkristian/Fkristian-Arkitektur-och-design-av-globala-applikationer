@@ -19,7 +19,7 @@ import AllApplicants from "./components/AllApplicants";
 import ApplicantForm from "./components/ApplicantForm"
 
 declare global {
-  var token: String;
+  var isAdmin: Boolean;
 }
 export const App = () => (
     <ChakraProvider theme={theme}>

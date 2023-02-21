@@ -14,13 +14,23 @@ export default function LogIn() {
         navigate("/applicantForm");
     }
     function test(){
-
-        ApiCallTryToken.admin().then((response:any) => console.log(response))
+        console.log(globalThis.isAdmin)
     }
 
 
     function test2() {
-        ApiCallTryToken.getAllApplicants().then((response:any) => console.log(response))
+        globalThis.isAdmin = false
+    }
+
+
+    function logOut() {
+        window.localStorage.setItem('access_token', "")
+        globalThis.isAdmin = false
+        navigate("/")
+    }
+
+    function goToApplicants() {
+        navigate("/all")
     }
 
     return <div>
@@ -37,20 +47,30 @@ export default function LogIn() {
         <Button
             width="100%"
             colorScheme="blue"
-            onClick={test}
+            onClick={logOut}
             mb={3}
         >
             {" "}
-            test
+            Log out
         </Button>
         <Button
             width="100%"
             colorScheme="blue"
-            onClick={test2}
+            onClick={test}
             mb={3}
         >
             {" "}
-            test2
+            Display
         </Button>
+
+        {globalThis.isAdmin && <Button
+            width="100%"
+            colorScheme="blue"
+            onClick={goToApplicants}
+            mb={3}
+        >
+            {" "}
+            Go to application handeler
+        </Button>}
              </div>
 };

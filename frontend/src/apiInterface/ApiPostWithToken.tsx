@@ -48,7 +48,6 @@ const ApiPost = {
         });
       },
     createApplication(object: any) : Promise<any> {
-        console.log(object)
         const postQueueEndpoint = "/api/application/post";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
     },

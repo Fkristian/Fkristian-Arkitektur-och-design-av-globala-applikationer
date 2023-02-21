@@ -6,6 +6,7 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import ApiPost from "../apiInterface/ApiPost";
+import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
 
 export default function LogIn() {
     const [errorMessage, setErrorMessage] = useState("")
@@ -32,15 +33,22 @@ export default function LogIn() {
     }
 
     const handleResponse = (response : Response) => {
-
         if (response.ok) {
             var token = null;
             response.json().then((token:any) => {
                 window.localStorage.setItem('access_token', token.token)
-                console.log(token.token)
-            })
+                ApiCallTryToken.admin().then((response:Response) => {
+                    if(response.status){
+                        globalThis.isAdmin = true
+                        navigate("/home");
+                    }else{
+                        globalThis.isAdmin = false
+                    }
 
+                })
+            })
             navigate("/home");
+
         }else if (response.status === 401){
             setErrorMessage("Wrong credentials")
         }
@@ -64,8 +72,13 @@ export default function LogIn() {
 
     }
 
+    function test(){
+        console.log(localStorage.getItem("access_token"))
+    }
 
-
+    function test2(){
+        window.localStorage.setItem('access_token', "")
+    }
     return(
     <Flex>
 
@@ -102,6 +115,24 @@ export default function LogIn() {
             >
                 {" "}
                 Log in
+            </Button>
+            <Button
+                width="100%"
+                colorScheme="blue"
+                onClick={test}
+                mb={3}
+            >
+                {" "}
+                Print token
+            </Button>
+            <Button
+                width="100%"
+                colorScheme="blue"
+                onClick={test2}
+                mb={3}
+            >
+                {" "}
+                Reset token
             </Button>
             <Button
                 variant="link"
