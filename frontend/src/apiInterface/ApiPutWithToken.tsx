@@ -35,6 +35,9 @@ const ApiCallWithToken = {
            //"Username already exists"
             return "Username already exists";
         }
+        else if(response.status === 412){
+             return response;
+         }
         else if(response == null){
             console.log("Error");
         }else{
