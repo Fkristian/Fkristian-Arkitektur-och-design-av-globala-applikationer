@@ -1,20 +1,18 @@
 package se.kth.iv1201.appserv.jobapp.service;
 
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.kth.iv1201.appserv.jobapp.domain.ApplicationStatus;
 import se.kth.iv1201.appserv.jobapp.domain.Availability;
-import se.kth.iv1201.appserv.jobapp.domain.Competence;
 import se.kth.iv1201.appserv.jobapp.domain.CompetenceProfile;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.ApplicationRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.StatusRequst;
-import se.kth.iv1201.appserv.jobapp.domain.external.response.GenericResponse;
 import se.kth.iv1201.appserv.jobapp.domain.internal.Competences;
 import se.kth.iv1201.appserv.jobapp.domain.internal.Dates;
 import se.kth.iv1201.appserv.jobapp.repository.ApplicationStatusRepository;
@@ -59,21 +57,28 @@ public class ApplicationService {
     }
 
     @Transactional
-    public GenericResponse updateApplicationStatus(StatusRequst statusRequst) {
-        ApplicationStatus status = applicationStatusRepository.findByPersonId(statusRequst.getPersonId());
-        if(status == null){
-            status = ApplicationStatus.builder()
-                    .personId(statusRequst.getPersonId())
-                    .status(statusRequst.getStatus())
-                    .build();
-            applicationStatusRepository.save(status);
-            return GenericResponse.OK;
-        }else{
-            status.setStatus(statusRequst.getStatus());
-            applicationStatusRepository.save(status);
-            return GenericResponse.OK;
+    public ResponseEntity updateApplicationStatus(StatusRequst statusRequst) {
+        try{
+            updateApplicationStatusConcurrently(statusRequst);
+            return ResponseEntity.ok().build();
         }
+        catch(OptimisticLockException e){
+            return ResponseEntity.status(HttpStatusCode.valueOf(412)).build();
+        }
+    }
 
+    private void updateApplicationStatusConcurrently(StatusRequst statusRequst) {
+        ApplicationStatus status = applicationStatusRepository.findByPersonId(statusRequst.getPersonId());
+        if(status.getVersion() != 1){
+            throw new OptimisticLockException();
+        }
+        else{
+        if(status == null){
+            status.setPersonId((statusRequst.getPersonId()));
+        }
+        status.setStatus(statusRequst.getStatus());
+        applicationStatusRepository.saveAndFlush(status);
+        }
     }
 
     private void insertCompetence(ApplicationRequest applicationRequest, int id){

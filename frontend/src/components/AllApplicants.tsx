@@ -87,8 +87,11 @@ export default function AllApplicants() {
             personId : theOneToSHow.personId
         }
         ApiPutWithToken.updateApplicationStatus(post).then(response => {
-            if(response.status !== 200){
-                setErrorMessage("something went wrong")
+            if(response.status === 412){
+                setErrorMessage("Someone has already updated this application")
+            }
+            else if(response.status !== 200){
+                setErrorMessage("Something went wrong")
             }else{
                 getAllApplicants();
                 clearErrorMessage();
@@ -106,9 +109,13 @@ export default function AllApplicants() {
             personId : theOneToSHow.personId
         }
         ApiPutWithToken.updateApplicationStatus(post).then(response => {
-            if(response.status !== 200){
-                setErrorMessage("something went wrong")
-            }else{
+            if(response.status === 412){
+                setErrorMessage("Someone has already updated this application")
+            }
+            else if(response.status !== 200){
+                setErrorMessage("Something went wrong")
+            }
+            else{
                 getAllApplicants();
                 clearErrorMessage();
             }
@@ -118,8 +125,6 @@ export default function AllApplicants() {
 
     return(
     <Flex>
-
-    <Text>{errorMessage !== "" && errorMessage}</Text>
         <Flex color={"red.100"}>
             <form>
                 <Text
