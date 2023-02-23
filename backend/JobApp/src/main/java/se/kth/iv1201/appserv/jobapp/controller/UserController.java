@@ -14,6 +14,7 @@ import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.RegisterRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
+import se.kth.iv1201.appserv.jobapp.domain.external.response.GenericResponse;
 import se.kth.iv1201.appserv.jobapp.service.UserService;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public class UserController {
     @PostMapping("authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody LogInRequest request){
         return ResponseEntity.ok(userService.authenticate(request));
+    }
+
+    @GetMapping("get")
+    public GenericResponse sayHello(){
+        return GenericResponse.OK;
     }
 
 }
