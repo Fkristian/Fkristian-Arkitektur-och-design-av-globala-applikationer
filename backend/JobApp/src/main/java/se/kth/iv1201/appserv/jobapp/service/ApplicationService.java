@@ -100,7 +100,7 @@ public class ApplicationService {
             throw new OptimisticLockException();
         }
         else{
-        if(status == null){
+        if(status == null){ //this will crash, null.setPersonId is not a function <3
             status.setPersonId((statusRequst.getPersonId()));
         }
         status.setStatus(statusRequst.getStatus());
