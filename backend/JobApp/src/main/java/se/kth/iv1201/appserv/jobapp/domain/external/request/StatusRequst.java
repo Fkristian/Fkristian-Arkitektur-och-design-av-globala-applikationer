@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class representing the ApplicationStatus-DTO from the request-body of updating an application
+ * from the Front End.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,4 +16,5 @@ import lombok.NoArgsConstructor;
 public class StatusRequst {
     int personId;
     String status;
+    int version;
 }

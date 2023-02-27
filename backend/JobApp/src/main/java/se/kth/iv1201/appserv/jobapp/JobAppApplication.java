@@ -6,24 +6,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Class used to start the Back End server.
+ */
 @SpringBootApplication
 public class JobAppApplication {
 
+    /**
+     * The main method to start the Back End server application.
+     *
+     * @param args arguments that could be provided from potentially the CLI.
+     */
     public static void main(String[] args) {
         SpringApplication.run(JobAppApplication.class, args);
     }
-
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/admin").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/").allowedOrigins("http://localhost:3000");
-//
-//            }
-//        };
-//    }
 
 }
 //fixa cors i denna och

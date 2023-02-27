@@ -19,6 +19,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Entity class representing the competence_profile table from the database.
+ */
 @Data
 @Builder
 @NoArgsConstructor

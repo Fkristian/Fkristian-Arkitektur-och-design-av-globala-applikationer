@@ -24,8 +24,12 @@ import se.kth.iv1201.appserv.jobapp.repository.UserRepository;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Service class where the business logic related to application management occurs.
+ */
 @Service
 @AllArgsConstructor
+@Transactional
 public class ApplicationService {
 
     private final UserRepository userRepository;
@@ -34,16 +38,34 @@ public class ApplicationService {
     private final CompetenceProfileRepository competenceProfileRepository;
     private final JwtService jwtService;
     private final ApplicationStatusRepository applicationStatusRepository;
+
+    /**
+     * Method used to retrieve all the applications, by utilizing {@code inner join} JPA queries.
+     *
+     * @return all the applications as a User List.
+     */
     public List<User> getAllApplications() {
         return userRepository.findByRoleId(2);
     }
 
+    /**
+     * Method to retrieve a specified application by its id.
+     *
+     * @param id the integer value used to locate the application.
+     * @return the application as a {@code User} object.
+     */
     public User getApplicationById(int id){
         return userRepository.findByPersonId(id);
     }
 
-    @Transactional
-    public ResponseEntity postApplication(ApplicationRequest applicationRequest, HttpServletRequest request) {
+    /**
+     * Method used to insert into the database a new application and update the necessary tables in a single transaction.
+     *
+     * @param applicationRequest request-DTO containing information to be inserted.
+     * @param request JWT-token with the user information to be inserted.
+     * @return an HTTP-status code to inform the Front End how the transaction went.
+     */
+    public ResponseEntity <?> postApplication(ApplicationRequest applicationRequest, HttpServletRequest request) {
         String username = getUserFromToken(request);
         User user = userRepository.findByUsername(username);
         insertAvailability(applicationRequest, user.getPersonId());
@@ -56,10 +78,15 @@ public class ApplicationService {
         return ResponseEntity.ok().build();
     }
 
-    @Transactional
-    public ResponseEntity updateApplicationStatus(StatusRequst statusRequst) {
+    /**
+     * Method used to update a specified application with a new status.
+     * @param statusRequest the request-DTO containing the status information
+     *                      of the application to be updated.
+     * @return an HTTP-status code to inform the Front End how the transaction went.
+     */
+    public ResponseEntity <?> updateApplicationStatus(StatusRequst statusRequest) {
         try{
-            updateApplicationStatusConcurrently(statusRequst);
+            updateApplicationStatusConcurrently(statusRequest);
             return ResponseEntity.ok().build();
         }
         catch(OptimisticLockException e){
@@ -69,7 +96,7 @@ public class ApplicationService {
 
     private void updateApplicationStatusConcurrently(StatusRequst statusRequst) {
         ApplicationStatus status = applicationStatusRepository.findByPersonId(statusRequst.getPersonId());
-        if(status.getVersion() != 1){
+        if(statusRequst.getVersion() != status.getVersion()){
             throw new OptimisticLockException();
         }
         else{

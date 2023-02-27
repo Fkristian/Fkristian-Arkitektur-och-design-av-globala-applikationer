@@ -13,6 +13,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class representing the competence table from the database.
+ */
 @Data
 @Builder
 @NoArgsConstructor

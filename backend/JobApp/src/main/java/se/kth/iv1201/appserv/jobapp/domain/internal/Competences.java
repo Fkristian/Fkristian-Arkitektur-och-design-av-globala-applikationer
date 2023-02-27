@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class representing the Application-DTO from the request-body, containing the information
+ * about competences.
+ */
 @Data
 @Builder
 @NoArgsConstructor

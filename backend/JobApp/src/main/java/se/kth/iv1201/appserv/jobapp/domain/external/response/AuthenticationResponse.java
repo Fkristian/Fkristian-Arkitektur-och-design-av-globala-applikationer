@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class representing the JWT-token as a response to the Front End.
+ */
 @Data
 @Builder
 @AllArgsConstructor

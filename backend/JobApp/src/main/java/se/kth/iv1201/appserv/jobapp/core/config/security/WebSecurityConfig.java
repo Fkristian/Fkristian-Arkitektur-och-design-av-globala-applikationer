@@ -19,7 +19,9 @@ import java.util.Arrays;
 
 import java.util.List;
 
-
+/**
+ * Class implemented as a security-mechanism to authenticate every request and check permission rules.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,6 +31,14 @@ public class WebSecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * The security filter Bean that will match every request and check what permits and
+     * authentications are allowed.
+     *
+     * @param http the http-request to be matched
+     * @return the http-request
+     * @throws Exception thrown when a general error or failure occurs.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
@@ -53,6 +63,10 @@ public class WebSecurityConfig {
     }
 
 
+    /**
+     * Bean containing CORS configurations to be added to the security filter chain.
+     * @return the specified CORS configurations.
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();

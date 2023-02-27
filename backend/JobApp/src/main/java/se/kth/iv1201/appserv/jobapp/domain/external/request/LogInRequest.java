@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class representing the User-DTO from the request-body of attempting to log in
+ * on the Front End.
+ */
 @Data
 @Builder
 @NoArgsConstructor

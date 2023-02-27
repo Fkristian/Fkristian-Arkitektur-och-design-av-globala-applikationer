@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * JPA Repository interface used to preform CRUD operations on the person table.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 

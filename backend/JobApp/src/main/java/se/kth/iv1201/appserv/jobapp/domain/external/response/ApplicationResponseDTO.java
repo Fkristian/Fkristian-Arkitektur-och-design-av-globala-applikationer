@@ -9,6 +9,9 @@ import se.kth.iv1201.appserv.jobapp.domain.CompetenceProfile;
 
 import java.util.List;
 
+/**
+ * Class representing the Application-DTO as a response to the Front End.
+ */
 @Data
 @Builder
 @AllArgsConstructor

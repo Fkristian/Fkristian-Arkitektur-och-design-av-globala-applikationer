@@ -1,4 +1,4 @@
-import Reract, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Input,
     Flex,
@@ -22,12 +22,13 @@ export default function AllApplicants() {
         competenceProfiles: [],
         personId: undefined
     })
-
+    const [applicationVersion, setApplicationVersion] = useState(null)
     const navigate = useNavigate();
 
     function changeTheOneToShow(response: any) {
         response.then((r: any) => {
             setTheOneToShow(r)
+            setApplicationVersion(r.applicationStatus.version)
             setShowAllOrOne("one")
         })
     }
@@ -84,7 +85,8 @@ export default function AllApplicants() {
     function declineApplication() {
         const post = {
             status : "rejected",
-            personId : theOneToSHow.personId
+            personId : theOneToSHow.personId,
+            version : applicationVersion
         }
         ApiPutWithToken.updateApplicationStatus(post).then(response => {
             if(response.status === 412){
@@ -106,7 +108,8 @@ export default function AllApplicants() {
     function approveApplication() {
         const post = {
             status : "approved",
-            personId : theOneToSHow.personId
+            personId : theOneToSHow.personId,
+            version : applicationVersion
         }
         ApiPutWithToken.updateApplicationStatus(post).then(response => {
             if(response.status === 412){

@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+/**
+ * Class representing the Application-DTO from the request-body, containing the information
+ * about availability.
+ */
 @Data
 @Builder
 @NoArgsConstructor

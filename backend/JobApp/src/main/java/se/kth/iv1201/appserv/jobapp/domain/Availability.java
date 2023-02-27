@@ -14,6 +14,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class representing the availability table from the database.
+ */
 @Data
 @Builder
 @NoArgsConstructor

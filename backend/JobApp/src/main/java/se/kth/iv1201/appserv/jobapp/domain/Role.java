@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class representing the role table from the database.
+ */
 @Data
 @Builder
 @NoArgsConstructor
