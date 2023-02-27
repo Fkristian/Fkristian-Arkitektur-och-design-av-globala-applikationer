@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ApiPutWithToken from "../apiInterface/ApiPutWithToken";
 import ApiCallTryToken from "../apiInterface/ApiCallTryToken";
+import ApiPostWithToken from "../apiInterface/ApiPostWithToken";
 
 export default function AllApplicants() {
     const [errorMessage, setErrorMessage] = useState("")
@@ -26,17 +27,28 @@ export default function AllApplicants() {
     const navigate = useNavigate();
 
     function changeTheOneToShow(response: any) {
+        console.log(response)
+        console.log("asdasd")
         response.then((r: any) => {
+            console.log("r")
+            console.log(r)
             setTheOneToShow(r)
             setApplicationVersion(r.applicationStatus.version)
             setShowAllOrOne("one")
         })
     }
+    // function changeShowingForApp(event: any) {
+    //     fetch('http://localhost:8088/admin/' + event.target.value).then(response => changeTheOneToShow(response.json()))
+    // }
+    // function changeShowingForApp(event: any) {
+    //     fetch('http://localhost:8088/admin/' + event.target.value, {
+    //   headers: {Authentication: 'Bearer ' + localStorage.getItem("access_token")},
+    // }).then(response => changeTheOneToShow(response.json()))
+    // }
 
     function changeShowingForApp(event: any) {
-        fetch('http://localhost:8088/admin/' + event.target.value).then(response => changeTheOneToShow(response.json()))
+        ApiPostWithToken.specificApplication(event.target.value).then(response => changeTheOneToShow(response.json()))
     }
-
     const handleResponse = (response : any) => {
         setApplicants(response)
         setShowAllOrOne("all")

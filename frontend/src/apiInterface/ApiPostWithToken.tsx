@@ -51,6 +51,10 @@ const ApiPost = {
         const postQueueEndpoint = "/api/application/post";
         return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
     },
+    specificApplication(object: any) : Promise<any> {
+        const postQueueEndpoint = "/admin/specificApplication";
+        return ApiPost.apiCall(postQueueEndpoint, object).then((data) => data);
+    },
 
   };
 

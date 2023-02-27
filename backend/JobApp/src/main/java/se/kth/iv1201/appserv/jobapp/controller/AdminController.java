@@ -45,9 +45,8 @@ public class AdminController {
      * @param id the integer ID used to find the application.
      * @return the specified application as a JSON-object.
      */
-    @GetMapping("{id}")
-    public ResponseEntity <User> getApplicationById(@PathVariable int id){
-
+    @PostMapping("specificApplication")
+    public ResponseEntity <User> getApplicationById(@RequestBody int id){
         return ResponseEntity.ok(applicationService.getApplicationById(id));
     }
 
@@ -58,7 +57,6 @@ public class AdminController {
      */
     @PutMapping("update-status")
     public ResponseEntity <?> updateApplicationStatus(@RequestBody StatusRequst statusRequest){
-
         return applicationService.updateApplicationStatus(statusRequest);
     }
 }
