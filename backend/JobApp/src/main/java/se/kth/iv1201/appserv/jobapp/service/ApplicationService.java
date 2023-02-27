@@ -93,7 +93,7 @@ public class ApplicationService {
             return ResponseEntity.ok().build();
         }
         else{
-            throw new IllegalJobApplicationUpdateException("Someone else has already updated the application status for: " +status.getApplicationStatusId());
+            throw new IllegalJobApplicationUpdateException("Someone else has already updated the application status for the user with ID: " +status.getPersonId());
         }
     }
 
