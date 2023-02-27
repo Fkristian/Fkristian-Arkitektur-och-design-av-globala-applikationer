@@ -44,11 +44,11 @@ const ApiCall = {
     admin() {
 
         const token = localStorage.getItem("access_token")
-        const getQueueEndpoint = "/admin";
+        const getQueueEndpoint = "/admin/hello";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
     getAllApplicants() {
-        const getQueueEndpoint = "/api/application/all";
+        const getQueueEndpoint = "/admin/all";
         return ApiCall.apiCall(getQueueEndpoint).then((data) => data);
     },
 }

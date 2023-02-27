@@ -51,7 +51,7 @@ const ApiCallWithToken = {
         });
       },
       updateApplicationStatus(object: any) : Promise<any> {
-        const postQueueEndpoint = "/api/application/update-status";
+        const postQueueEndpoint = "/admin/update-status";
           return ApiCallWithToken.apiCall(postQueueEndpoint, object).then((data) => data);
       },
   };

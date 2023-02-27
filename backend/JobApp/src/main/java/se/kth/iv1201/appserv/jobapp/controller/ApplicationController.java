@@ -30,38 +30,6 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    /**
-     * Method to retrieve all current applications in the database to the Front End.
-     *
-     * @return All current users as a JSON-object.
-     */
-    @GetMapping("all")
-    public ResponseEntity <List <User>> getAllApplications(){
-        return ResponseEntity.ok(applicationService.getAllApplications());
-    }
-
-    /**
-     * Method to retrieve one specific application to the Front End from the database.
-     *
-     * @param id the integer ID used to find the application.
-     * @return the specified application as a JSON-object.
-     */
-    @GetMapping("{id}")
-    public ResponseEntity <User> getApplicationById(@PathVariable int id){
-
-        return ResponseEntity.ok(applicationService.getApplicationById(id));
-    }
-
-    /**
-     * Method used to update an application from the Front End in the database.
-     * @param statusRequest the request-body containing information about the application status.
-     * @return an HTTP-status code to inform the Front End how the transaction went.
-     */
-    @PutMapping("update-status")
-    public ResponseEntity <?> updateApplicationStatus(@RequestBody StatusRequst statusRequest){
-
-        return applicationService.updateApplicationStatus(statusRequest);
-    }
 
     /**
      * Method used to post a new application from the Front End to the database.

@@ -34,7 +34,7 @@ export default function AllApplicants() {
     }
 
     function changeShowingForApp(event: any) {
-        fetch('http://localhost:8088/api/application/' + event.target.value).then(response => changeTheOneToShow(response.json()))
+        fetch('http://localhost:8088/admin/' + event.target.value).then(response => changeTheOneToShow(response.json()))
     }
 
     const handleResponse = (response : any) => {
