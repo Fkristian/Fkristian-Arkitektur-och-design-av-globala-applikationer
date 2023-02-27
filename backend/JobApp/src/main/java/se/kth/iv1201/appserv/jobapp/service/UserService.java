@@ -13,6 +13,7 @@ import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.RegisterRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserRegisterException;
 import se.kth.iv1201.appserv.jobapp.repository.ApplicationStatusRepository;
 import se.kth.iv1201.appserv.jobapp.repository.UserRepository;
 
@@ -39,7 +40,7 @@ public class UserService {
      * @return an HTTP-status code to inform the Front End how the transaction went together with an
      * authentication token, if the transaction completed.
      */
-    public ResponseEntity<AuthenticationResponse> register(RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(RegisterRequest request) throws IllegalUserRegisterException {
         if(userRepository.findByUsername(request.getUsername()) == null) {
             var user = User.builder()
                     .name(request.getFirstname())
@@ -61,7 +62,7 @@ public class UserService {
             var jwtToken = jwtService.generateToken(user);
             return ResponseEntity.ok(AuthenticationResponse.builder().token(jwtToken).build());
         } else {
-                return ResponseEntity.status(HttpStatusCode.valueOf(409)).build();
+                throw new IllegalUserRegisterException("A user already exists with the username: " +request.getUsername());
             }
     }
 
@@ -81,7 +82,6 @@ public class UserService {
                 )
         );
         var user = userRepository.findByUsername(request.getUsername());
-        //.orElseThrow() behöver Optional
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }

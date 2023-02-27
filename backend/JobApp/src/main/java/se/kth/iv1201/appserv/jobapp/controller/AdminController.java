@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.StatusRequst;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.GenericResponse;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalJobApplicationUpdateException;
 import se.kth.iv1201.appserv.jobapp.service.ApplicationService;
 
 
@@ -56,7 +57,7 @@ public class AdminController {
      * @return an HTTP-status code to inform the Front End how the transaction went.
      */
     @PutMapping("update-status")
-    public ResponseEntity <?> updateApplicationStatus(@RequestBody StatusRequst statusRequest){
+    public ResponseEntity <?> updateApplicationStatus(@RequestBody StatusRequst statusRequest) throws IllegalJobApplicationUpdateException {
         return applicationService.updateApplicationStatus(statusRequest);
     }
 }

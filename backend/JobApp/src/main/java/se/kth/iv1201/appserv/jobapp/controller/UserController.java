@@ -13,6 +13,7 @@ import se.kth.iv1201.appserv.jobapp.domain.external.request.RegisterRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.GenericResponse;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserRegisterException;
 import se.kth.iv1201.appserv.jobapp.service.UserService;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class UserController {
      * authentication token.
      */
     @PostMapping("register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) throws IllegalUserRegisterException {
 
         return userService.register(request);
     }

@@ -15,6 +15,7 @@ import se.kth.iv1201.appserv.jobapp.domain.external.request.ApplicationRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.StatusRequst;
 import se.kth.iv1201.appserv.jobapp.domain.internal.Competences;
 import se.kth.iv1201.appserv.jobapp.domain.internal.Dates;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalJobApplicationUpdateException;
 import se.kth.iv1201.appserv.jobapp.repository.ApplicationStatusRepository;
 import se.kth.iv1201.appserv.jobapp.repository.AvailabilityRepository;
 import se.kth.iv1201.appserv.jobapp.repository.CompetenceProfileRepository;
@@ -84,29 +85,18 @@ public class ApplicationService {
      *                      of the application to be updated.
      * @return an HTTP-status code to inform the Front End how the transaction went.
      */
-    public ResponseEntity <?> updateApplicationStatus(StatusRequst statusRequest) {
-        try{
-            updateApplicationStatusConcurrently(statusRequest);
+    public ResponseEntity <?> updateApplicationStatus(StatusRequst statusRequest) throws IllegalJobApplicationUpdateException {
+        ApplicationStatus status = applicationStatusRepository.findByPersonId(statusRequest.getPersonId());
+        if(statusRequest.getVersion() == status.getVersion()){
+            status.setStatus(statusRequest.getStatus());
+            applicationStatusRepository.saveAndFlush(status);
             return ResponseEntity.ok().build();
         }
-        catch(OptimisticLockException e){
-            return ResponseEntity.status(HttpStatusCode.valueOf(412)).build();
+        else{
+            throw new IllegalJobApplicationUpdateException("Someone else has already updated the application status for: " +status.getApplicationStatusId());
         }
     }
 
-    private void updateApplicationStatusConcurrently(StatusRequst statusRequst) {
-        ApplicationStatus status = applicationStatusRepository.findByPersonId(statusRequst.getPersonId());
-        if(statusRequst.getVersion() != status.getVersion()){
-            throw new OptimisticLockException();
-        }
-        else{
-        if(status == null){ //this will crash, null.setPersonId is not a function <3
-            status.setPersonId((statusRequst.getPersonId()));
-        }
-        status.setStatus(statusRequst.getStatus());
-        applicationStatusRepository.saveAndFlush(status);
-        }
-    }
 
     private void insertCompetence(ApplicationRequest applicationRequest, int id){
         for (Competences competences: applicationRequest.getCompetenceArray()) {
