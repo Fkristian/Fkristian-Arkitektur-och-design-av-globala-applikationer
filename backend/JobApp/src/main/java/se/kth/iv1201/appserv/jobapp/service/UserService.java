@@ -83,13 +83,11 @@ public class UserService {
                 )
         );
         var user = userRepository.findByUsername(request.getUsername());
-        if(user != null){
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
-        }
-        else{
+        if(user == null) {
             throw new IllegalUserAuthenticationException("The user with the " + request.getUsername() + " could not be found.");
         }
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
 
