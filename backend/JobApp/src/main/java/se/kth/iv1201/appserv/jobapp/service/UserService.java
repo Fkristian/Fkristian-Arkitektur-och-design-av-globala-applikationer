@@ -13,6 +13,7 @@ import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.RegisterRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.LogInRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.response.AuthenticationResponse;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserAuthenticationException;
 import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserRegisterException;
 import se.kth.iv1201.appserv.jobapp.repository.ApplicationStatusRepository;
 import se.kth.iv1201.appserv.jobapp.repository.UserRepository;
@@ -73,7 +74,7 @@ public class UserService {
      * @return an HTTP-status code to inform the Front End how the transaction went together with an
      * authentication token, if the transaction completed.
      */
-    public AuthenticationResponse authenticate(LogInRequest request) {
+    public AuthenticationResponse authenticate(LogInRequest request) throws IllegalUserAuthenticationException {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -82,8 +83,13 @@ public class UserService {
                 )
         );
         var user = userRepository.findByUsername(request.getUsername());
+        if(user != null){
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
+        }
+        else{
+            throw new IllegalUserAuthenticationException("The user with the " + request.getUsername() + " could not be found.");
+        }
     }
 
 

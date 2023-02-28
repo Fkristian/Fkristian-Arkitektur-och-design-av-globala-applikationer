@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import se.kth.iv1201.appserv.jobapp.domain.User;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.ApplicationRequest;
 import se.kth.iv1201.appserv.jobapp.domain.external.request.StatusRequst;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalJobApplicationUpdateException;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserAuthenticationException;
 import se.kth.iv1201.appserv.jobapp.service.ApplicationService;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class ApplicationController {
      * @return an HTTP-status code to inform the Front End how the transaction went.
      */
     @PostMapping("post")
-    public ResponseEntity <?> postApplication(@RequestBody ApplicationRequest applicationRequest, HttpServletRequest request){
+    public ResponseEntity <?> postApplication(@RequestBody ApplicationRequest applicationRequest, HttpServletRequest request) throws IllegalUserAuthenticationException, IllegalJobApplicationUpdateException {
         return applicationService.postApplication(applicationRequest, request);
     }
 

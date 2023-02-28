@@ -1,12 +1,13 @@
 package se.kth.iv1201.appserv.jobapp.exceptions.handler;
 
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.PrematureJwtException;
 import jakarta.persistence.OptimisticLockException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import se.kth.iv1201.appserv.jobapp.exceptions.ErrorMessage;
 import se.kth.iv1201.appserv.jobapp.exceptions.IllegalJobApplicationUpdateException;
@@ -14,12 +15,13 @@ import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserAuthenticationExceptio
 import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserRegisterException;
 
 import java.net.ConnectException;
+import java.sql.SQLException;
 import java.util.Date;
 
 @ControllerAdvice
-public class ControllerExceptionHandler {
+public class GlobalExceptionHandler {
     @ExceptionHandler(value = {IllegalUserAuthenticationException.class} )
-    public ResponseEntity <ErrorMessage> handleUserException(IllegalUserAuthenticationException e, WebRequest request){
+    public ResponseEntity <ErrorMessage> handleUserAuthenticationException(IllegalUserAuthenticationException e, WebRequest request){
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.UNAUTHORIZED.value(),
                 new Date(),
@@ -54,6 +56,16 @@ public class ControllerExceptionHandler {
         }else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @ExceptionHandler(value = {SQLException.class})
+    public ResponseEntity<?> generalSQLException(CannotCreateTransactionException e, WebRequest request)  {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                new Date(),
+                "An unknown error occurred updating the database.",
+                request.getDescription(false));
+            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 

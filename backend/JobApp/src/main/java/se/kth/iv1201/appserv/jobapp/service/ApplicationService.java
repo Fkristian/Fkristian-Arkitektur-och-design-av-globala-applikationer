@@ -16,6 +16,7 @@ import se.kth.iv1201.appserv.jobapp.domain.external.request.StatusRequst;
 import se.kth.iv1201.appserv.jobapp.domain.internal.Competences;
 import se.kth.iv1201.appserv.jobapp.domain.internal.Dates;
 import se.kth.iv1201.appserv.jobapp.exceptions.IllegalJobApplicationUpdateException;
+import se.kth.iv1201.appserv.jobapp.exceptions.IllegalUserAuthenticationException;
 import se.kth.iv1201.appserv.jobapp.repository.ApplicationStatusRepository;
 import se.kth.iv1201.appserv.jobapp.repository.AvailabilityRepository;
 import se.kth.iv1201.appserv.jobapp.repository.CompetenceProfileRepository;
@@ -66,7 +67,7 @@ public class ApplicationService {
      * @param request JWT-token with the user information to be inserted.
      * @return an HTTP-status code to inform the Front End how the transaction went.
      */
-    public ResponseEntity <?> postApplication(ApplicationRequest applicationRequest, HttpServletRequest request) {
+    public ResponseEntity <?> postApplication(ApplicationRequest applicationRequest, HttpServletRequest request) throws IllegalUserAuthenticationException, IllegalJobApplicationUpdateException {
         String username = getUserFromToken(request);
         User user = userRepository.findByUsername(username);
         insertAvailability(applicationRequest, user.getPersonId());
@@ -98,17 +99,23 @@ public class ApplicationService {
     }
 
 
-    private void insertCompetence(ApplicationRequest applicationRequest, int id){
+    private void insertCompetence(ApplicationRequest applicationRequest, int id) throws IllegalJobApplicationUpdateException {
         for (Competences competences: applicationRequest.getCompetenceArray()) {
 
             int compId = competenceRepository.findByName(competences.getCompetence()).getCompetenceId();
 
-            var competenceProfile = CompetenceProfile.builder()
-                    .personId(id)
-                    .competenceId(compId)
-                    .yearsOfExperience(Double.parseDouble(competences.getYearsOfExperience()))
-                    .build();
-            competenceProfileRepository.save(competenceProfile);
+            if(compId != 0) {
+
+                var competenceProfile = CompetenceProfile.builder()
+                        .personId(id)
+                        .competenceId(compId)
+                        .yearsOfExperience(Double.parseDouble(competences.getYearsOfExperience()))
+                        .build();
+                competenceProfileRepository.save(competenceProfile);
+            }
+            else{
+                throw new IllegalJobApplicationUpdateException("No ID could be found for the competence: " +competences.getCompetence());
+            }
         }
     }
 
@@ -123,9 +130,14 @@ public class ApplicationService {
         }
     }
 
-    private String getUserFromToken(HttpServletRequest request){
+    private String getUserFromToken(HttpServletRequest request) throws IllegalUserAuthenticationException {
         String authHeader = request.getHeader("Authorization");
+        if(authHeader!=null){
         String jwt = authHeader.substring(7);
         return jwtService.extractUsername(jwt);
+        }
+        else{
+            throw new IllegalUserAuthenticationException("Authorization could not be preformed");
+        }
     }
 }
